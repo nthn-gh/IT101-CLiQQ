@@ -7,6 +7,7 @@ import SendMoneyModal from '@/components/SendMoneyModal.vue'
 import TopUpWalletModal from '@/components/TopUpWalletModal.vue'
 import SuccessModal from '@/components/SuccessModal.vue'
 import QRScannerModal from '@/components/QRScannerModal.vue'
+import ReceiveQRModal from '@/components/ReceiveQRModal.vue'
 
 const router = useRouter()
 
@@ -15,6 +16,7 @@ const isSendMoneyModalOpen = ref(false)
 const isTopUpModalOpen = ref(false)
 const isSuccessModalOpen = ref(false)
 const isQRScannerOpen = ref(false)
+const isReceiveQRModalOpen = ref(false)
 const successType = ref<'send' | 'topup'>('send')
 const successAmount = ref(0)
 const successRecipient = ref('')
@@ -42,6 +44,14 @@ const openQRScanner = () => {
 
 const closeQRScanner = () => {
   isQRScannerOpen.value = false
+}
+
+const openReceiveQRModal = () => {
+  isReceiveQRModalOpen.value = true
+}
+
+const closeReceiveQRModal = () => {
+  isReceiveQRModalOpen.value = false
 }
 
 const handleQRScanned = (data: string) => {
@@ -127,16 +137,31 @@ const closeSuccessModal = () => {
             </div>
             <Icons name="arrow-right" :size="20" class="action-arrow" />
           </button>
+        </div>
+      </section>
 
-          <button class="primary-action-card" @click="openQRScanner">
-            <div class="action-icon">
+      <!-- QR Code Actions -->
+      <section class="section">
+        <h3 class="section-subtitle">QR Code</h3>
+        <div class="qr-actions">
+          <button class="qr-action-card" @click="openQRScanner">
+            <div class="action-icon scan">
               <Icons name="qrcode" :size="28" />
             </div>
             <div class="action-content">
               <h4>Scan QR Code</h4>
-              <p>Pay or receive instantly</p>
+              <p>Pay instantly</p>
             </div>
-            <Icons name="arrow-right" :size="20" class="action-arrow" />
+          </button>
+
+          <button class="qr-action-card" @click="openReceiveQRModal">
+            <div class="action-icon generate">
+              <Icons name="download" :size="28" />
+            </div>
+            <div class="action-content">
+              <h4>Generate QR</h4>
+              <p>Receive money</p>
+            </div>
           </button>
         </div>
       </section>
@@ -240,6 +265,13 @@ const closeSuccessModal = () => {
       :isOpen="isQRScannerOpen"
       @close="closeQRScanner"
       @scanned="handleQRScanned"
+    />
+
+    <ReceiveQRModal 
+      v-if="isReceiveQRModalOpen"
+      userName="Juan dela Cruz"
+      userMobile="0917 123 4567"
+      @close="closeReceiveQRModal"
     />
   </div>
 </template>
@@ -399,6 +431,72 @@ const closeSuccessModal = () => {
 
   .action-arrow {
     color: var(--color-text-tertiary);
+  }
+}
+
+/* QR Actions */
+.qr-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-md);
+}
+
+.qr-action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xl);
+  background: var(--color-surface);
+  border: 2px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+
+  &:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .action-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface-secondary);
+    border-radius: var(--radius-md);
+    flex-shrink: 0;
+
+    &.scan {
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      color: white;
+    }
+
+    &.generate {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: white;
+    }
+  }
+
+  .action-content {
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
   }
 }
 

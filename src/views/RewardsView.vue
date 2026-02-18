@@ -3,8 +3,11 @@ import { ref, computed } from 'vue'
 import TopBar from '@/components/TopBar.vue'
 import Icons from '@/components/Icons.vue'
 import RedemptionModal from '@/components/RedemptionModal.vue'
+import LinkRewardsCardModal from '@/components/LinkRewardsCardModal.vue'
 
 const availablePoints = ref(1250)
+const isCardLinked = ref(false)
+const linkedCardNumber = ref('')
 
 const canRedeem = (requiredPoints: number) => {
   return availablePoints.value >= requiredPoints
@@ -14,6 +17,9 @@ const canRedeem = (requiredPoints: number) => {
 const isModalOpen = ref(false)
 const selectedRewardName = ref('')
 const selectedRewardPoints = ref(0)
+
+// Link card modal state
+const isLinkCardModalOpen = ref(false)
 
 const handleRedeem = (rewardName: string, points: number) => {
   if (canRedeem(points)) {
@@ -30,6 +36,28 @@ const handleCloseModal = () => {
   selectedRewardName.value = ''
   selectedRewardPoints.value = 0
 }
+
+const openLinkCardModal = () => {
+  isLinkCardModalOpen.value = true
+}
+
+const closeLinkCardModal = () => {
+  isLinkCardModalOpen.value = false
+}
+
+const handleCardLinked = (cardNumber: string) => {
+  isCardLinked.value = true
+  linkedCardNumber.value = cardNumber
+}
+
+const maskedCardNumber = computed(() => {
+  if (!linkedCardNumber.value) return ''
+  const parts = linkedCardNumber.value.split('-')
+  if (parts.length === 4) {
+    return `****-****-****-${parts[3]}`
+  }
+  return linkedCardNumber.value
+})
 </script>
 
 <template>
@@ -48,6 +76,48 @@ const handleCloseModal = () => {
           </div>
         </div>
       </div>
+
+      <!-- Rewards Card Section -->
+      <section class="section" v-if="!isCardLinked">
+        <div class="card-link-prompt">
+          <div class="icon-container">
+            <Icons name="card" :size="32" />
+          </div>
+          <div class="prompt-content">
+            <h3>Link Your Rewards Card</h3>
+            <p>Connect your 7-Eleven Rewards card to earn points and unlock exclusive benefits</p>
+          </div>
+          <button class="link-btn" @click="openLinkCardModal">
+            Link Card
+            <Icons name="arrow-right" :size="18" />
+          </button>
+        </div>
+      </section>
+
+      <section class="section" v-else>
+        <div class="linked-card">
+          <div class="card-display">
+            <div class="card-mini">
+              <div class="card-logo">7-ELEVEN</div>
+              <div class="card-number">{{ maskedCardNumber }}</div>
+              <div class="card-status">
+                <Icons name="check" :size="16" />
+                <span>Linked</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-benefits">
+            <div class="benefit-item">
+              <Icons name="star" :size="20" />
+              <span>Earning points on every purchase</span>
+            </div>
+            <div class="benefit-item">
+              <Icons name="gift" :size="20" />
+              <span>Access to exclusive rewards</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Human-Readable Descriptions -->
       <section class="section">
@@ -507,6 +577,13 @@ const handleCloseModal = () => {
       :rewardPoints="selectedRewardPoints"
       @close="handleCloseModal"
     />
+
+    <!-- Link Rewards Card Modal -->
+    <LinkRewardsCardModal 
+      v-if="isLinkCardModalOpen"
+      @close="closeLinkCardModal"
+      @linked="handleCardLinked"
+    />
   </div>
 </template>
 
@@ -572,6 +649,135 @@ const handleCloseModal = () => {
     font-weight: 700;
     color: var(--color-text-primary);
     margin-bottom: var(--spacing-lg);
+  }
+}
+
+/* Rewards Card Section */
+.card-link-prompt {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  background: linear-gradient(135deg, #FFF7ED, #FFEDD5);
+  border: 2px solid #FED7AA;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+
+  .icon-container {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FF6B1A, #D85614);
+    border-radius: var(--radius-md);
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .prompt-content {
+    flex: 1;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+  }
+
+  .link-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: linear-gradient(135deg, #FF6B1A, #D85614);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 107, 26, 0.3);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.linked-card {
+  background: var(--color-surface);
+  border: 2px solid #10B981;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+
+  .card-display {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .card-mini {
+    background: linear-gradient(135deg, #FF6B1A 0%, #D85614 100%);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    color: white;
+    position: relative;
+
+    .card-logo {
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .card-number {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      font-family: 'Courier New', monospace;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .card-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+    }
+  }
+
+  .card-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .benefit-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: 14px;
+    color: var(--color-text-secondary);
+
+    svg {
+      color: #10B981;
+      flex-shrink: 0;
+    }
   }
 }
 
