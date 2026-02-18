@@ -474,8 +474,9 @@ const resendOTP = () => {
   
   .logo-container {
     .logo-image {
-      height: 80px;
+      height: 120px;
       width: auto;
+      max-width: 280px;
       margin-bottom: var(--spacing-md);
       filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
     }

@@ -127,8 +127,9 @@ const emit = defineEmits<{
 }
 
 .logo {
-  height: 32px;
+  height: 40px;
   width: auto;
+  max-width: 150px;
   object-fit: contain;
 }
 
