@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Icons from './Icons.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   isOpen: boolean
-  type: 'send' | 'topup'
+  type: 'send' | 'topup' | 'load' | 'bill'
   amount: number
   recipient?: string
   method?: string
@@ -16,6 +17,20 @@ const emit = defineEmits<{
 const closeModal = () => {
   emit('close')
 }
+
+const successTitle = computed(() => {
+  switch (props.type) {
+    case 'send':
+      return 'Money Sent Successfully!'
+    case 'topup':
+      return 'Top Up Successful!'
+    case 'load':
+    case 'bill':
+      return 'Transaction Successfully Completed'
+    default:
+      return 'Transaction Successful!'
+  }
+})
 </script>
 
 <template>
@@ -27,7 +42,7 @@ const closeModal = () => {
         </div>
 
         <div class="success-body">
-          <h2>{{ type === 'send' ? 'Money Sent Successfully!' : 'Top Up Successful!' }}</h2>
+          <h2>{{ successTitle }}</h2>
           
           <div class="amount-display">
             <p class="amount-label">Amount</p>

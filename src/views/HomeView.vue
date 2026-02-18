@@ -231,7 +231,7 @@ const closeSuccessModal = () => {
     <SuccessModal
       v-if="isSuccessModalOpen"
       :isOpen="isSuccessModalOpen"
-      type="send"
+      type="load"
       :amount="loadAmount"
       :recipient="recipientInfo"
       @close="closeSuccessModal"

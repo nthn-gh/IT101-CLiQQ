@@ -124,7 +124,7 @@ const closeSuccessModal = () => {
     <SuccessModal
       v-if="isSuccessModalOpen"
       :isOpen="isSuccessModalOpen"
-      type="send"
+      type="bill"
       :amount="paymentAmount"
       :recipient="selectedBiller?.name"
       @close="closeSuccessModal"
