@@ -61,14 +61,24 @@ const finalAmount = computed(() => {
 })
 
 const isValid = computed(() => {
-  return mobileNumber.value.length >= 10 && 
+  const cleanNumber = mobileNumber.value.replace(/\D/g, '')
+  return cleanNumber.length === 11 && 
+         cleanNumber.startsWith('09') &&
          selectedNetwork.value && 
          finalAmount.value > 0
 })
 
 const formatMobileNumber = (value: string) => {
   // Remove non-digits
-  const digits = value.replace(/\D/g, '')
+  let digits = value.replace(/\D/g, '')
+  
+  // Ensure it starts with 09
+  if (digits.length > 0 && !digits.startsWith('09')) {
+    digits = '09' + digits.replace(/^0*/, '')
+  }
+  
+  // Limit to 11 digits
+  digits = digits.slice(0, 11)
   
   // Format as 0XXX-XXX-XXXX
   if (digits.length <= 4) {

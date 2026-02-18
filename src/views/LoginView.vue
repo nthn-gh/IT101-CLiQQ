@@ -7,6 +7,7 @@ const router = useRouter()
 
 const isLogin = ref(true)
 const showConsent = ref(false)
+const showOTP = ref(false)
 const isLoading = ref(false)
 
 // Form fields
@@ -16,6 +17,11 @@ const fullName = ref('')
 const mobileNumber = ref('')
 const confirmPassword = ref('')
 const termsAccepted = ref(false)
+
+// OTP fields
+const otpCode = ref(['', '', '', '', '', ''])
+const mockOTP = '123456'
+const otpError = ref('')
 
 const toggleMode = () => {
   isLogin.value = !isLogin.value
@@ -64,16 +70,86 @@ const handleConsentAccept = () => {
     return
   }
 
-  // Simulate registration completion
-  isLoading.value = true
-  setTimeout(() => {
-    router.push('/home')
-  }, 1000)
+  // Show OTP screen
+  showConsent.value = false
+  showOTP.value = true
 }
 
 const handleConsentBack = () => {
   showConsent.value = false
   termsAccepted.value = false
+}
+
+const handleOTPInput = (index: number, event: Event) => {
+  const input = event.target as HTMLInputElement
+  const value = input.value.replace(/\D/g, '') // Only digits
+  
+  if (value) {
+    otpCode.value[index] = value[0]
+    // Auto-focus next input
+    if (index < 5) {
+      const nextInput = document.getElementById(`otp-${index + 1}`)
+      nextInput?.focus()
+    }
+  }
+  
+  otpError.value = ''
+}
+
+const handleOTPKeydown = (index: number, event: KeyboardEvent) => {
+  if (event.key === 'Backspace' && !otpCode.value[index] && index > 0) {
+    const prevInput = document.getElementById(`otp-${index - 1}`)
+    prevInput?.focus()
+  }
+}
+
+const handleOTPPaste = (event: ClipboardEvent) => {
+  event.preventDefault()
+  const pastedData = event.clipboardData?.getData('text').replace(/\D/g, '').slice(0, 6) || ''
+  
+  for (let i = 0; i < pastedData.length; i++) {
+    otpCode.value[i] = pastedData[i]
+  }
+  
+  const lastFilledIndex = Math.min(pastedData.length - 1, 5)
+  const lastInput = document.getElementById(`otp-${lastFilledIndex}`)
+  lastInput?.focus()
+}
+
+const handleOTPSubmit = () => {
+  const enteredOTP = otpCode.value.join('')
+  
+  if (enteredOTP.length !== 6) {
+    otpError.value = 'Please enter the complete 6-digit OTP'
+    return
+  }
+  
+  if (enteredOTP === mockOTP) {
+    // OTP verified, complete registration
+    isLoading.value = true
+    setTimeout(() => {
+      router.push('/home')
+    }, 1000)
+  } else {
+    otpError.value = 'Invalid OTP. Please try again.'
+    otpCode.value = ['', '', '', '', '', '']
+    const firstInput = document.getElementById('otp-0')
+    firstInput?.focus()
+  }
+}
+
+const handleOTPBack = () => {
+  showOTP.value = false
+  showConsent.value = true
+  otpCode.value = ['', '', '', '', '', '']
+  otpError.value = ''
+}
+
+const resendOTP = () => {
+  // Mock resend
+  alert('OTP resent! Use: 123456')
+  otpCode.value = ['', '', '', '', '', '']
+  otpError.value = ''
 }
 </script>
 
@@ -172,8 +248,64 @@ const handleConsentBack = () => {
       </div>
     </Transition>
 
+    <!-- OTP Verification Screen -->
+    <Transition name="slide">
+      <div v-if="showOTP" class="otp-screen">
+        <div class="otp-content">
+          <div class="otp-header">
+            <button class="back-btn" @click="handleOTPBack">
+              <Icons name="chevron-left" :size="24" />
+            </button>
+            <h2>Verify Mobile Number</h2>
+          </div>
+
+          <div class="otp-body">
+            <div class="otp-icon">📱</div>
+            <p class="otp-description">
+              We've sent a 6-digit verification code to<br>
+              <strong>{{ mobileNumber }}</strong>
+            </p>
+            <p class="otp-mock-hint">Mock OTP: <strong>123456</strong></p>
+
+            <div class="otp-inputs">
+              <input
+                v-for="(digit, index) in otpCode"
+                :key="index"
+                :id="`otp-${index}`"
+                type="text"
+                inputmode="numeric"
+                maxlength="1"
+                :value="digit"
+                @input="handleOTPInput(index, $event)"
+                @keydown="handleOTPKeydown(index, $event)"
+                @paste="index === 0 ? handleOTPPaste($event) : null"
+                class="otp-input"
+                :class="{ error: otpError }"
+              />
+            </div>
+
+            <p v-if="otpError" class="otp-error">{{ otpError }}</p>
+
+            <button 
+              class="otp-submit-btn"
+              :disabled="otpCode.join('').length !== 6 || isLoading"
+              @click="handleOTPSubmit"
+            >
+              <span v-if="!isLoading">Verify & Continue</span>
+              <span v-else>Verifying...</span>
+            </button>
+
+            <div class="otp-resend">
+              <p>Didn't receive the code?</p>
+              <button @click="resendOTP" class="resend-btn">Resend OTP</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
     <!-- Login/Register Screen -->
-    <div v-show="!showConsent" class="auth-container">
+    <div v-show="!showConsent && !showOTP" class="auth-container">
       <!-- Header -->
       <div class="auth-header">
         <div class="logo-container">
@@ -221,9 +353,11 @@ const handleConsentBack = () => {
               id="mobileNumber"
               v-model="mobileNumber"
               placeholder="09171234567"
-              pattern="[0-9]{11}"
+              pattern="09[0-9]{9}"
+              maxlength="11"
               required
             />
+            <small class="input-hint">Must start with 09 and be 11 digits</small>
           </div>
 
           <!-- Common Fields -->
@@ -435,6 +569,13 @@ const handleConsentBack = () => {
     &::placeholder {
       color: var(--color-text-tertiary);
     }
+  }
+
+  .input-hint {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    margin-top: var(--spacing-xs);
   }
 }
 
@@ -787,6 +928,182 @@ const handleConsentBack = () => {
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+}
+
+/* OTP Screen */
+.otp-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.otp-content {
+  width: 100%;
+  max-width: 480px;
+  padding: var(--spacing-3xl);
+}
+
+.otp-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-3xl);
+  
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s;
+    
+    &:hover {
+      background: var(--color-divider);
+    }
+  }
+  
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+}
+
+.otp-body {
+  text-align: center;
+}
+
+.otp-icon {
+  font-size: 64px;
+  margin-bottom: var(--spacing-xl);
+}
+
+.otp-description {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  
+  strong {
+    color: var(--color-text-primary);
+    font-weight: 600;
+  }
+}
+
+.otp-mock-hint {
+  font-size: 14px;
+  color: var(--color-primary);
+  background: rgba(255, 105, 0, 0.1);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-md);
+  display: inline-block;
+  margin-bottom: var(--spacing-3xl);
+  
+  strong {
+    font-weight: 700;
+  }
+}
+
+.otp-inputs {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+  margin-bottom: var(--spacing-xl);
+}
+
+.otp-input {
+  width: 48px;
+  height: 56px;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  border: 2px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition: all 0.2s;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    background: white;
+  }
+  
+  &.error {
+    border-color: #DC2626;
+    animation: shake 0.4s;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+
+.otp-error {
+  color: #DC2626;
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: var(--spacing-lg);
+}
+
+.otp-submit-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: var(--spacing-xl);
+  
+  &:hover:not(:disabled) {
+    background: #E55F00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 105, 0, 0.3);
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.otp-resend {
+  p {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .resend-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    
+    &:hover {
+      color: #E55F00;
+    }
   }
 }
 
