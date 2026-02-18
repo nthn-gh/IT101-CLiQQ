@@ -48,10 +48,11 @@ const closeSuccessModal = () => {
 </script>
 
 <template>
-  <div class="pay-bills-view">
-    <TopBar title="Pay Bills" :show-back="true" @back="goBack" />
-    
-    <div class="pay-bills-view__content">
+  <div>
+    <div class="pay-bills-view">
+      <TopBar title="Pay Bills" :show-back="true" @back="goBack" />
+      
+      <div class="pay-bills-view__content">
       <!-- Search -->
       <div class="search-section">
         <div class="search-box">
@@ -175,6 +176,7 @@ const closeSuccessModal = () => {
     :recipient="selectedBiller?.name"
     @close="closeSuccessModal"
   />
+  </div>
 </template>
 
 <style scoped lang="scss">
