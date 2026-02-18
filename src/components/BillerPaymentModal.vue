@@ -92,7 +92,7 @@ const accountPlaceholder = computed(() => {
     <div class="modal-overlay" @click="handleClose">
       <div class="modal-content payment-modal" @click.stop>
         <button class="close-btn" @click="handleClose" :disabled="isProcessing">
-          <Icons name="close" :size="24" />
+          <Icons name="x" :size="24" />
         </button>
 
         <div class="modal-header">

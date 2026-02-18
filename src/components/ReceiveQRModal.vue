@@ -47,7 +47,7 @@ const handleDownload = () => {
     <div class="modal-overlay" @click="handleClose">
       <div class="modal-content receive-qr-modal" @click.stop>
         <button class="close-btn" @click="handleClose">
-          <Icons name="close" :size="24" />
+          <Icons name="x" :size="24" />
         </button>
 
         <div class="modal-header">
