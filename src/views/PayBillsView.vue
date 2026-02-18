@@ -158,10 +158,10 @@ const closeSuccessModal = () => {
 
   <!-- Biller Payment Modal -->
   <BillerPaymentModal 
-    v-if="isPaymentModalOpen"
-    :billerName="selectedBiller?.name"
-    :billerLogo="selectedBiller?.logo"
-    :billerCategory="selectedBiller?.category"
+    v-if="isPaymentModalOpen && selectedBiller"
+    :billerName="selectedBiller.name"
+    :billerLogo="selectedBiller.logo"
+    :billerCategory="selectedBiller.category"
     @close="closePaymentModal"
     @payment-success="handlePaymentSuccess"
   />
@@ -169,15 +169,11 @@ const closeSuccessModal = () => {
   <!-- Success Modal -->
   <SuccessModal
     v-if="isSuccessModalOpen"
-    title="Payment Successful"
-    :message="`₱${paymentAmount} payment to ${selectedBiller?.name} is being processed.`"
-    :details="[
-      { label: selectedBiller?.category === 'telco' ? 'Mobile Number' : 'Account Number', value: accountNumber },
-      { label: 'Amount', value: `₱${paymentAmount}` },
-      { label: 'Reference', value: `${Date.now()}`.slice(-10) }
-    ]"
-    @close="closeSuccessModal"
+    :isOpen="isSuccessModalOpen"
     type="bill"
+    :amount="paymentAmount"
+    :recipient="selectedBiller?.name"
+    @close="closeSuccessModal"
   />
 </template>
 
