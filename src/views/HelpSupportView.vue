@@ -164,7 +164,6 @@ const faqs = [
       <!-- App Info -->
       <section class="section">
         <div class="app-info">
-          <img src="/7eleven-logo.svg" alt="7-Eleven" class="app-logo" />
           <h3>CLiQQ Rewards</h3>
           <p>Version 1.0.0</p>
           <p class="copyright">© 2024 7-Eleven Philippines. All rights reserved.</p>
