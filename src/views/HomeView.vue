@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import TopBar from '@/components/TopBar.vue'
 import Icons from '@/components/Icons.vue'
 import BarcodeCard from '@/components/BarcodeCard.vue'
 import InfoCard from '@/components/InfoCard.vue'
 import QuickAction from '@/components/QuickAction.vue'
+import BuyLoadModal from '@/components/BuyLoadModal.vue'
+import SuccessModal from '@/components/SuccessModal.vue'
 
 const router = useRouter()
 
@@ -21,6 +23,33 @@ const greeting = computed(() => {
     return 'Good evening'
   }
 })
+
+// Buy Load Modal State
+const isBuyLoadModalOpen = ref(false)
+const isSuccessModalOpen = ref(false)
+const loadAmount = ref(0)
+const recipientInfo = ref('')
+
+const openBuyLoadModal = () => {
+  isBuyLoadModalOpen.value = true
+}
+
+const closeBuyLoadModal = () => {
+  isBuyLoadModalOpen.value = false
+}
+
+const handleLoadSuccess = (amount: number, mobileNumber: string, network: string) => {
+  loadAmount.value = amount
+  recipientInfo.value = `${network} - ${mobileNumber}`
+  closeBuyLoadModal()
+  isSuccessModalOpen.value = true
+}
+
+const closeSuccessModal = () => {
+  isSuccessModalOpen.value = false
+  loadAmount.value = 0
+  recipientInfo.value = ''
+}
 </script>
 
 <template>
@@ -62,7 +91,7 @@ const greeting = computed(() => {
           <QuickAction 
             icon="phone" 
             label="Buy Load"
-            @click="router.push('/wallet')"
+            @click="openBuyLoadModal"
           />
           <QuickAction 
             icon="receipt" 
@@ -190,6 +219,23 @@ const greeting = computed(() => {
       <!-- Bottom Spacing -->
       <div class="bottom-spacer"></div>
     </div>
+
+    <!-- Buy Load Modal -->
+    <BuyLoadModal
+      v-if="isBuyLoadModalOpen"
+      @close="closeBuyLoadModal"
+      @success="handleLoadSuccess"
+    />
+
+    <!-- Success Modal -->
+    <SuccessModal
+      v-if="isSuccessModalOpen"
+      :isOpen="isSuccessModalOpen"
+      type="send"
+      :amount="loadAmount"
+      :recipient="recipientInfo"
+      @close="closeSuccessModal"
+    />
   </div>
 </template>
 

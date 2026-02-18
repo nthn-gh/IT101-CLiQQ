@@ -123,6 +123,7 @@ const closeSuccessModal = () => {
     <!-- Success Modal -->
     <SuccessModal
       v-if="isSuccessModalOpen"
+      :isOpen="isSuccessModalOpen"
       type="send"
       :amount="paymentAmount"
       :recipient="selectedBiller?.name"
