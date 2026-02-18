@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TopBar from '@/components/TopBar.vue'
 import Icons from '@/components/Icons.vue'
+import BillerPaymentModal from '@/components/BillerPaymentModal.vue'
+import SuccessModal from '@/components/SuccessModal.vue'
 
 const router = useRouter()
 const goBack = () => router.back()
@@ -20,6 +23,36 @@ const billers = [
   { name: 'Kumon', logo: '✏️', category: 'Tutorial' },
   { name: 'Mind Gym', logo: '🧠', category: 'Tutorial' },
 ]
+
+// Modal state
+const isPaymentModalOpen = ref(false)
+const isSuccessModalOpen = ref(false)
+const selectedBiller = ref<{ name: string; logo: string; category: string } | null>(null)
+const paymentAmount = ref(0)
+const accountNumber = ref('')
+
+const openPaymentModal = (biller: { name: string; logo: string; category: string }) => {
+  selectedBiller.value = biller
+  isPaymentModalOpen.value = true
+}
+
+const closePaymentModal = () => {
+  isPaymentModalOpen.value = false
+}
+
+const handlePaymentSuccess = (amount: number, account: string) => {
+  paymentAmount.value = amount
+  accountNumber.value = account
+  closePaymentModal()
+  isSuccessModalOpen.value = true
+}
+
+const closeSuccessModal = () => {
+  isSuccessModalOpen.value = false
+  selectedBiller.value = null
+  paymentAmount.value = 0
+  accountNumber.value = ''
+}
 </script>
 
 <template>
@@ -43,6 +76,7 @@ const billers = [
             v-for="biller in billers.filter(b => b.popular)" 
             :key="biller.name"
             class="biller-item popular"
+            @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">{{ biller.logo }}</div>
             <div class="biller-info">
@@ -65,6 +99,7 @@ const billers = [
             v-for="biller in billers.filter(b => b.category === 'University')" 
             :key="biller.name"
             class="biller-item"
+            @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">{{ biller.logo }}</div>
             <div class="biller-info">
@@ -103,6 +138,26 @@ const billers = [
         </div>
       </section>
     </div>
+
+    <!-- Payment Modal -->
+    <BillerPaymentModal
+      v-if="isPaymentModalOpen && selectedBiller"
+      :billerName="selectedBiller.name"
+      :billerLogo="selectedBiller.logo"
+      billerCategory="education"
+      @close="closePaymentModal"
+      @success="handlePaymentSuccess"
+    />
+
+    <!-- Success Modal -->
+    <SuccessModal
+      v-if="isSuccessModalOpen"
+      :isOpen="isSuccessModalOpen"
+      type="send"
+      :amount="paymentAmount"
+      :recipient="selectedBiller?.name"
+      @close="closeSuccessModal"
+    />
   </div>
 </template>
 
