@@ -5,7 +5,7 @@ import fs from 'fs'
 
 export default defineConfig({
   plugins: [vue()],
-  base: process.env.VITE_BASE_PATH || '/',
+  base: '/IT101-CLiQQ/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))

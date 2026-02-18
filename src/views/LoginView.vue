@@ -309,8 +309,8 @@ const resendOTP = () => {
       <!-- Header -->
       <div class="auth-header">
         <div class="logo-container">
-          <div class="logo">7-Eleven</div>
-          <p class="tagline">CLiQQ Rewards</p>
+          <img src="/cliqq-logo.png" alt="CLiQQ" class="logo-image" />
+          <p class="tagline">Rewards & Payments</p>
         </div>
       </div>
 
@@ -473,13 +473,11 @@ const resendOTP = () => {
   margin-bottom: var(--spacing-3xl);
   
   .logo-container {
-    .logo {
-      font-size: 42px;
-      font-weight: 800;
-      color: white;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: -1px;
+    .logo-image {
+      height: 80px;
+      width: auto;
+      margin-bottom: var(--spacing-md);
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
     }
     
     .tagline {

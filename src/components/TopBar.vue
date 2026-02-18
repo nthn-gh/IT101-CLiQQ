@@ -18,13 +18,7 @@ const emit = defineEmits<{
     </button>
     
     <div v-if="!title" class="top-bar__logo">
-      <div class="logo">
-        <div class="logo__badge">
-          <span class="logo__seven">7</span>
-          <span class="logo__eleven">11</span>
-        </div>
-        <span class="logo__text">CLiQQ</span>
-      </div>
+      <img src="/cliqq-logo.png" alt="CLiQQ" class="logo" />
     </div>
 
     <h1 v-else class="top-bar__title">{{ title }}</h1>
@@ -126,39 +120,16 @@ const emit = defineEmits<{
   }
 }
 
-.logo {
+.top-bar__logo {
+  flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
+}
 
-  &__badge {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    padding: 4px 8px;
-    background: linear-gradient(135deg, var(--color-secondary) 0%, var(--color-primary) 100%);
-    border-radius: 6px;
-    font-weight: 800;
-    line-height: 1;
-    box-shadow: 0 2px 4px rgba(255, 107, 0, 0.2);
-  }
-
-  &__seven {
-    color: white;
-    font-size: 16px;
-  }
-
-  &__eleven {
-    color: white;
-    font-size: 14px;
-  }
-
-  &__text {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    letter-spacing: -0.5px;
-  }
+.logo {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
 }
 
 .notification-dot {

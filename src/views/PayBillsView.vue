@@ -1,10 +1,50 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TopBar from '@/components/TopBar.vue'
 import Icons from '@/components/Icons.vue'
+import BillerPaymentModal from '@/components/BillerPaymentModal.vue'
+import SuccessModal from '@/components/SuccessModal.vue'
 
 const router = useRouter()
 const goBack = () => router.back()
+
+// Recent billers data
+const recentBillers = [
+  { name: 'Meralco', logo: '⚡', category: 'utilities', lastAmount: '2,450.50' },
+  { name: 'Manila Water', logo: '💧', category: 'utilities', lastAmount: '650.00' },
+  { name: 'PLDT Home', logo: '📞', category: 'telco', lastAmount: '1,699.00' },
+]
+
+// Modal state
+const isPaymentModalOpen = ref(false)
+const isSuccessModalOpen = ref(false)
+const selectedBiller = ref<{ name: string; logo: string; category: string } | null>(null)
+const paymentAmount = ref(0)
+const accountNumber = ref('')
+
+const openPaymentModal = (biller: { name: string; logo: string; category: string }) => {
+  selectedBiller.value = biller
+  isPaymentModalOpen.value = true
+}
+
+const closePaymentModal = () => {
+  isPaymentModalOpen.value = false
+}
+
+const handlePaymentSuccess = (amount: number, account: string) => {
+  paymentAmount.value = amount
+  accountNumber.value = account
+  closePaymentModal()
+  isSuccessModalOpen.value = true
+}
+
+const closeSuccessModal = () => {
+  isSuccessModalOpen.value = false
+  selectedBiller.value = null
+  paymentAmount.value = 0
+  accountNumber.value = ''
+}
 </script>
 
 <template>
@@ -24,35 +64,18 @@ const goBack = () => router.back()
     <section class="section">
         <h2 class="section-title">Recent Billers</h2>
         <div class="recent-billers">
-          <button class="recent-biller">
+          <button 
+            v-for="biller in recentBillers" 
+            :key="biller.name"
+            class="recent-biller"
+            @click="openPaymentModal(biller)"
+          >
             <div class="biller-icon">
-              <Icons name="download" :size="24" />
+              <span class="biller-emoji">{{ biller.logo }}</span>
             </div>
             <div class="biller-info">
-              <h4>Meralco</h4>
-              <p>Last: ₱2,450.50</p>
-            </div>
-            <Icons name="arrow-right" :size="18" class="biller-arrow" />
-          </button>
-
-          <button class="recent-biller">
-            <div class="biller-icon">
-              <Icons name="download" :size="24" />
-            </div>
-            <div class="biller-info">
-              <h4>Manila Water</h4>
-              <p>Last: ₱650.00</p>
-            </div>
-            <Icons name="arrow-right" :size="18" class="biller-arrow" />
-          </button>
-
-          <button class="recent-biller">
-            <div class="biller-icon">
-              <Icons name="phone" :size="24" />
-            </div>
-            <div class="biller-info">
-              <h4>PLDT Home</h4>
-              <p>Last: ₱1,699.00</p>
+              <h4>{{ biller.name }}</h4>
+              <p>Last: ₱{{ biller.lastAmount }}</p>
             </div>
             <Icons name="arrow-right" :size="18" class="biller-arrow" />
           </button>
@@ -132,6 +155,30 @@ const goBack = () => router.back()
       </section>
     </div>
   </div>
+
+  <!-- Biller Payment Modal -->
+  <BillerPaymentModal 
+    v-if="isPaymentModalOpen"
+    :billerName="selectedBiller?.name"
+    :billerLogo="selectedBiller?.logo"
+    :billerCategory="selectedBiller?.category"
+    @close="closePaymentModal"
+    @payment-success="handlePaymentSuccess"
+  />
+
+  <!-- Success Modal -->
+  <SuccessModal
+    v-if="isSuccessModalOpen"
+    title="Payment Successful"
+    :message="`₱${paymentAmount} payment to ${selectedBiller?.name} is being processed.`"
+    :details="[
+      { label: selectedBiller?.category === 'telco' ? 'Mobile Number' : 'Account Number', value: accountNumber },
+      { label: 'Amount', value: `₱${paymentAmount}` },
+      { label: 'Reference', value: `${Date.now()}`.slice(-10) }
+    ]"
+    @close="closeSuccessModal"
+    type="bill"
+  />
 </template>
 
 <style scoped lang="scss">
@@ -237,6 +284,10 @@ const goBack = () => router.back()
     border-radius: var(--radius-md);
     flex-shrink: 0;
     color: var(--color-primary);
+
+    .biller-emoji {
+      font-size: 24px;
+    }
   }
 
   .biller-info {

@@ -8,6 +8,7 @@ import InfoCard from '@/components/InfoCard.vue'
 import QuickAction from '@/components/QuickAction.vue'
 import BuyLoadModal from '@/components/BuyLoadModal.vue'
 import SuccessModal from '@/components/SuccessModal.vue'
+import PromoOfferModal from '@/components/PromoOfferModal.vue'
 
 const router = useRouter()
 
@@ -30,6 +31,15 @@ const isSuccessModalOpen = ref(false)
 const loadAmount = ref(0)
 const recipientInfo = ref('')
 
+// Promo Modal State
+const isPromoModalOpen = ref(false)
+const selectedPromo = ref({
+  title: '',
+  description: '',
+  validUntil: '',
+  discount: ''
+})
+
 const openBuyLoadModal = () => {
   isBuyLoadModalOpen.value = true
 }
@@ -49,6 +59,15 @@ const closeSuccessModal = () => {
   isSuccessModalOpen.value = false
   loadAmount.value = 0
   recipientInfo.value = ''
+}
+
+const openPromoModal = (title: string, description: string, validUntil: string, discount: string) => {
+  selectedPromo.value = { title, description, validUntil, discount }
+  isPromoModalOpen.value = true
+}
+
+const closePromoModal = () => {
+  isPromoModalOpen.value = false
 }
 </script>
 
@@ -194,7 +213,7 @@ const closeSuccessModal = () => {
           subtitle="Exclusive deals for CLiQQ members"
         >
           <div class="promo-grid">
-            <div class="promo-item">
+            <button class="promo-item" @click="openPromoModal('20% Off Load', 'Get 20% discount on all mobile load purchases. Valid for Globe, Smart, TNT, Sun, and DITO networks.', 'Feb 28, 2026', '20%')">
               <div class="promo-item__icon">
                 <Icons name="percent" :size="24" />
               </div>
@@ -202,8 +221,8 @@ const closeSuccessModal = () => {
                 <h4>20% Off Load</h4>
                 <p>Valid until Feb 28</p>
               </div>
-            </div>
-            <div class="promo-item">
+            </button>
+            <button class="promo-item" @click="openPromoModal('2x Points', 'Earn double CLiQQ Rewards points on all bills payment transactions this month.', 'Feb 28, 2026', '2x')">
               <div class="promo-item__icon">
                 <Icons name="zap" :size="24" />
               </div>
@@ -211,7 +230,7 @@ const closeSuccessModal = () => {
                 <h4>2x Points</h4>
                 <p>On bills payment</p>
               </div>
-            </div>
+            </button>
           </div>
         </InfoCard>
       </section>
@@ -235,6 +254,16 @@ const closeSuccessModal = () => {
       :amount="loadAmount"
       :recipient="recipientInfo"
       @close="closeSuccessModal"
+    />
+
+    <!-- Promo Offer Modal -->
+    <PromoOfferModal
+      v-if="isPromoModalOpen"
+      :title="selectedPromo.title"
+      :description="selectedPromo.description"
+      :validUntil="selectedPromo.validUntil"
+      :discount="selectedPromo.discount"
+      @close="closePromoModal"
     />
   </div>
 </template>
@@ -514,7 +543,21 @@ const closeSuccessModal = () => {
   gap: var(--spacing-md);
   padding: var(--spacing-lg);
   background: var(--color-surface-secondary);
+  border: none;
   border-radius: var(--radius-md);
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: #f0f0f0;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
 
   &__icon {
     width: 48px;
