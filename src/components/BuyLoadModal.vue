@@ -10,6 +10,7 @@ const emit = defineEmits<{
 const mobileNumber = ref('')
 const selectedNetwork = ref('')
 const selectedAmount = ref(0)
+const customAmount = ref('')
 const isProcessing = ref(false)
 
 const networks = [
@@ -26,10 +27,43 @@ const loadAmounts = [
   { value: 300, label: '₱300' },
   { value: 500, label: '₱500' },
   { value: 1000, label: '₱1000' },
+  { value: 0, label: 'Custom', isCustom: true },
 ]
 
+const networkPromos = {
+  globe: [
+    { title: 'GOSURF50', description: '1GB data + unlimited texts to Globe/TM', price: 50 },
+    { title: 'GOSAKTO120', description: '8GB data + unli calls & texts', price: 120 },
+    { title: 'GOCOMBODD90', description: '2GB data + 60mins all-net calls', price: 90 },
+  ],
+  smart: [
+    { title: 'GIGA50', description: '2GB data valid for 3 days', price: 50 },
+    { title: 'GIGA99', description: '4GB data + unli texts to all networks', price: 99 },
+    { title: 'ALLNET99', description: '3GB data + 100mins all-net calls', price: 99 },
+  ],
+  dito: [
+    { title: 'DITO25', description: '2GB data valid for 1 day', price: 25 },
+    { title: 'DITO99', description: '10GB data valid for 7 days', price: 99 },
+    { title: 'DITO299', description: '25GB data + unli calls valid for 30 days', price: 299 },
+  ],
+}
+
+const currentPromos = computed(() => {
+  if (!selectedNetwork.value) return []
+  return networkPromos[selectedNetwork.value as keyof typeof networkPromos] || []
+})
+
+const finalAmount = computed(() => {
+  if (selectedAmount.value === 0 && customAmount.value) {
+    return parseFloat(customAmount.value) || 0
+  }
+  return selectedAmount.value
+})
+
 const isValid = computed(() => {
-  return mobileNumber.value.length >= 10 && selectedNetwork.value && selectedAmount.value > 0
+  return mobileNumber.value.length >= 10 && 
+         selectedNetwork.value && 
+         finalAmount.value > 0
 })
 
 const formatMobileNumber = (value: string) => {
@@ -52,12 +86,33 @@ const handleMobileInput = (e: Event) => {
   mobileNumber.value = formatted
 }
 
+const handleCustomAmountInput = (e: Event) => {
+  const input = e.target as HTMLInputElement
+  // Only allow numbers and one decimal point
+  const value = input.value.replace(/[^\d.]/g, '')
+  const parts = value.split('.')
+  if (parts.length > 2) {
+    customAmount.value = parts[0] + '.' + parts.slice(1).join('')
+  } else {
+    customAmount.value = value
+  }
+}
+
 const selectNetwork = (network: string) => {
   selectedNetwork.value = network
 }
 
 const selectAmount = (amount: number) => {
   selectedAmount.value = amount
+  // Clear custom amount when selecting preset
+  if (amount !== 0) {
+    customAmount.value = ''
+  }
+}
+
+const selectPromo = (promo: { price: number }) => {
+  selectedAmount.value = promo.price
+  customAmount.value = ''
 }
 
 const handleSubmit = () => {
@@ -70,7 +125,7 @@ const handleSubmit = () => {
     isProcessing.value = false
     const cleanNumber = mobileNumber.value.replace(/\D/g, '')
     const networkName = networks.find(n => n.value === selectedNetwork.value)?.name || selectedNetwork.value
-    emit('success', selectedAmount.value, cleanNumber, networkName)
+    emit('success', finalAmount.value, cleanNumber, networkName)
   }, 2000)
 }
 </script>
@@ -141,11 +196,50 @@ const handleSubmit = () => {
             </div>
           </div>
 
+          <!-- Custom Amount Input -->
+          <div v-if="selectedAmount === 0" class="form-group">
+            <label class="form-label" for="custom-amount">Enter Custom Amount</label>
+            <div class="input-wrapper">
+              <span class="input-prefix">₱</span>
+              <input
+                id="custom-amount"
+                type="text"
+                v-model="customAmount"
+                @input="handleCustomAmountInput"
+                placeholder="0.00"
+                class="form-input form-input--with-prefix"
+                :disabled="isProcessing"
+              />
+            </div>
+            <p class="input-hint">Minimum: ₱10 • Maximum: ₱5,000</p>
+          </div>
+
+          <!-- Network Promos -->
+          <div v-if="selectedNetwork && currentPromos.length > 0" class="form-group">
+            <label class="form-label">Exclusive Promos</label>
+            <div class="promos-list">
+              <button
+                v-for="promo in currentPromos"
+                :key="promo.title"
+                class="promo-card"
+                :class="{ active: selectedAmount === promo.price }"
+                @click="selectPromo(promo)"
+                :disabled="isProcessing"
+              >
+                <div class="promo-card__header">
+                  <h4 class="promo-card__title">{{ promo.title }}</h4>
+                  <span class="promo-card__price">₱{{ promo.price }}</span>
+                </div>
+                <p class="promo-card__description">{{ promo.description }}</p>
+              </button>
+            </div>
+          </div>
+
           <!-- Payment Summary -->
           <div v-if="isValid" class="payment-summary">
             <div class="summary-row">
               <span class="summary-label">Load Amount</span>
-              <span class="summary-value">₱{{ selectedAmount.toFixed(2) }}</span>
+              <span class="summary-value">₱{{ finalAmount.toFixed(2) }}</span>
             </div>
             <div class="summary-row">
               <span class="summary-label">Convenience Fee</span>
@@ -154,7 +248,7 @@ const handleSubmit = () => {
             <div class="summary-divider"></div>
             <div class="summary-row summary-total">
               <span class="summary-label">Total</span>
-              <span class="summary-value">₱{{ selectedAmount.toFixed(2) }}</span>
+              <span class="summary-value">₱{{ finalAmount.toFixed(2) }}</span>
             </div>
           </div>
         </div>
@@ -348,6 +442,27 @@ const handleSubmit = () => {
     background: #f5f5f5;
     cursor: not-allowed;
   }
+
+  &--with-prefix {
+    padding-left: 40px;
+  }
+}
+
+.input-prefix {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #1a1a1a;
+  pointer-events: none;
+}
+
+.input-hint {
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  color: #999;
 }
 
 .amount-grid {
@@ -380,6 +495,68 @@ const handleSubmit = () => {
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+}
+
+.promos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.promo-card {
+  background: #f8f8f8;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+
+  &:hover:not(:disabled) {
+    background: #f0f0f0;
+  }
+
+  &.active {
+    background: #fff5f0;
+    border-color: #ff6900;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  &__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+  }
+
+  &__price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #ff6900;
+  }
+
+  &__description {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  &.active &__title,
+  &.active &__description {
+    color: #1a1a1a;
   }
 }
 
