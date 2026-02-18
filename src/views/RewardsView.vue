@@ -4,8 +4,10 @@ import TopBar from '@/components/TopBar.vue'
 import Icons from '@/components/Icons.vue'
 import RedemptionModal from '@/components/RedemptionModal.vue'
 import LinkRewardsCardModal from '@/components/LinkRewardsCardModal.vue'
+import WiFiConversionModal from '@/components/WiFiConversionModal.vue'
 
 const availablePoints = ref(1250)
+const wifiMB = ref(850) // Current WiFi MB balance
 const isCardLinked = ref(false)
 const linkedCardNumber = ref('')
 
@@ -17,6 +19,9 @@ const canRedeem = (requiredPoints: number) => {
 const isModalOpen = ref(false)
 const selectedRewardName = ref('')
 const selectedRewardPoints = ref(0)
+
+// WiFi conversion modal state
+const isWiFiModalOpen = ref(false)
 
 // Link card modal state
 const isLinkCardModalOpen = ref(false)
@@ -50,6 +55,20 @@ const handleCardLinked = (cardNumber: string) => {
   linkedCardNumber.value = cardNumber
 }
 
+const openWiFiModal = () => {
+  isWiFiModalOpen.value = true
+}
+
+const closeWiFiModal = () => {
+  isWiFiModalOpen.value = false
+}
+
+const handleWiFiConversion = (points: number, mb: number) => {
+  availablePoints.value -= points
+  wifiMB.value += mb
+  closeWiFiModal()
+}
+
 const maskedCardNumber = computed(() => {
   if (!linkedCardNumber.value) return ''
   const parts = linkedCardNumber.value.split('-')
@@ -76,6 +95,37 @@ const maskedCardNumber = computed(() => {
           </div>
         </div>
       </div>
+
+      <!-- 7-Eleven WiFi Section -->
+      <section class="section">
+        <div class="wifi-card">
+          <div class="wifi-header">
+            <div class="wifi-icon-container">
+              <span class="wifi-icon">📶</span>
+            </div>
+            <div class="wifi-info">
+              <h3>7-Eleven WiFi</h3>
+              <p>Convert points to WiFi data</p>
+            </div>
+          </div>
+          
+          <div class="wifi-balance">
+            <div class="wifi-stat">
+              <span class="wifi-stat-label">Available MB</span>
+              <span class="wifi-stat-value">{{ wifiMB.toLocaleString() }} MB</span>
+            </div>
+            <div class="wifi-conversion-rate">
+              <Icons name="info" :size="16" />
+              <span>10 points = 100 MB</span>
+            </div>
+          </div>
+
+          <button class="wifi-convert-btn" @click="openWiFiModal">
+            <Icons name="plus" :size="20" />
+            Convert Points to WiFi
+          </button>
+        </div>
+      </section>
 
       <!-- Rewards Card Section -->
       <section class="section" v-if="!isCardLinked">
@@ -584,6 +634,15 @@ const maskedCardNumber = computed(() => {
       @close="closeLinkCardModal"
       @linked="handleCardLinked"
     />
+
+    <!-- WiFi Conversion Modal -->
+    <WiFiConversionModal
+      v-if="isWiFiModalOpen"
+      :availablePoints="availablePoints"
+      :currentMB="wifiMB"
+      @close="closeWiFiModal"
+      @convert="handleWiFiConversion"
+    />
   </div>
 </template>
 
@@ -637,6 +696,114 @@ const maskedCardNumber = computed(() => {
     font-weight: 600;
     backdrop-filter: blur(10px);
     color: white;
+  }
+}
+
+/* WiFi Card */
+.wifi-card {
+  background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-3xl);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.wifi-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.wifi-icon-container {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(10px);
+
+  .wifi-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+}
+
+.wifi-info {
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 4px 0;
+    color: white;
+  }
+
+  p {
+    font-size: 14px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+.wifi-balance {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+
+.wifi-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+
+  &-label {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  &-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+  }
+}
+
+.wifi-conversion-rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.wifi-convert-btn {
+  width: 100%;
+  padding: var(--spacing-lg);
+  background: white;
+  color: #2563EB;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &:active {
+    transform: translateY(0);
   }
 }
 
