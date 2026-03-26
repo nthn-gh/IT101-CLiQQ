@@ -10,14 +10,14 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Maxicare', logo: 'https://logo.clearbit.com/maxicare.com.ph', popular: true, desc: 'Health Maintenance Organization' },
-  { name: 'Medicard', logo: 'https://logo.clearbit.com/medicardphils.com', popular: true, desc: 'Health Insurance Provider' },
-  { name: 'PhilHealth', logo: 'https://logo.clearbit.com/philhealth.gov.ph', popular: true, desc: 'National Health Insurance' },
-  { name: 'Intellicare', logo: 'https://logo.clearbit.com/intellicare.com.ph', desc: 'Healthcare Programs' },
-  { name: 'Pacific Cross', logo: 'https://logo.clearbit.com/pacificcross.com.ph', desc: 'International Health Insurance' },
-  { name: 'Cocolife', logo: 'https://logo.clearbit.com/cocolife.com', desc: 'Life & Health Insurance' },
-  { name: 'AXA Philippines', logo: 'https://logo.clearbit.com/axa.com.ph', desc: 'Health Insurance Solutions' },
-  { name: 'Kaiser International', logo: 'https://logo.clearbit.com/kaiserhealthgroup.com.ph', desc: 'Health Maintenance Services' },
+  { name: 'Maxicare', logo: 'https://icons.duckduckgo.com/ip3/maxicare.com.ph.ico', popular: true, desc: 'Health Maintenance Organization' },
+  { name: 'Medicard', logo: 'https://icons.duckduckgo.com/ip3/medicardphils.com.ico', popular: true, desc: 'Health Insurance Provider' },
+  { name: 'PhilHealth', logo: 'https://icons.duckduckgo.com/ip3/philhealth.gov.ph.ico', popular: true, desc: 'National Health Insurance' },
+  { name: 'Intellicare', logo: 'https://icons.duckduckgo.com/ip3/intellicare.com.ph.ico', desc: 'Healthcare Programs' },
+  { name: 'Pacific Cross', logo: 'https://icons.duckduckgo.com/ip3/pacificcross.com.ph.ico', desc: 'International Health Insurance' },
+  { name: 'Cocolife', logo: 'https://icons.duckduckgo.com/ip3/cocolife.com.ico', desc: 'Life & Health Insurance' },
+  { name: 'AXA Philippines', logo: 'https://icons.duckduckgo.com/ip3/axa.com.ph.ico', desc: 'Health Insurance Solutions' },
+  { name: 'Kaiser International', logo: 'https://icons.duckduckgo.com/ip3/kaiserhealthgroup.com.ph.ico', desc: 'Health Maintenance Services' },
 ]
 
 // Modal state
@@ -75,7 +75,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -100,7 +100,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>

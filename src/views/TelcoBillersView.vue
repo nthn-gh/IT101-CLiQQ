@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Globe Postpaid', logo: 'https://logo.clearbit.com/globe.com.ph', popular: true },
-  { name: 'Smart/TNT/Sun', logo: 'https://logo.clearbit.com/smart.com.ph', popular: true },
-  { name: 'PLDT Home', logo: 'https://logo.clearbit.com/pldt.com.ph', popular: true },
-  { name: 'Converge ICT', logo: 'https://logo.clearbit.com/convergeict.com' },
-  { name: 'DITO Telecommunity', logo: 'https://logo.clearbit.com/dito.ph' },
-  { name: 'Sky Broadband', logo: 'https://logo.clearbit.com/mysky.com.ph' },
-  { name: 'Globe At Home', logo: 'https://logo.clearbit.com/globe.com.ph' },
-  { name: 'PLDT Fibr', logo: 'https://logo.clearbit.com/pldt.com.ph' },
-  { name: 'Cignal TV', logo: 'https://logo.clearbit.com/cignal.tv' },
-  { name: 'Sky Cable', logo: 'https://logo.clearbit.com/mysky.com.ph' },
-  { name: 'Eastern Communications', logo: 'https://logo.clearbit.com/eastern.com.ph' },
-  { name: 'Bayantel', logo: 'https://logo.clearbit.com/bayantel.com' },
+  { name: 'Globe Postpaid', logo: 'https://icons.duckduckgo.com/ip3/globe.com.ph.ico', popular: true },
+  { name: 'Smart/TNT/Sun', logo: 'https://icons.duckduckgo.com/ip3/smart.com.ph.ico', popular: true },
+  { name: 'PLDT Home', logo: 'https://icons.duckduckgo.com/ip3/pldt.com.ph.ico', popular: true },
+  { name: 'Converge ICT', logo: 'https://icons.duckduckgo.com/ip3/convergeict.com.ico' },
+  { name: 'DITO Telecommunity', logo: 'https://icons.duckduckgo.com/ip3/dito.ph.ico' },
+  { name: 'Sky Broadband', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
+  { name: 'Globe At Home', logo: 'https://icons.duckduckgo.com/ip3/globe.com.ph.ico' },
+  { name: 'PLDT Fibr', logo: 'https://icons.duckduckgo.com/ip3/pldt.com.ph.ico' },
+  { name: 'Cignal TV', logo: 'https://icons.duckduckgo.com/ip3/cignal.tv.ico' },
+  { name: 'Sky Cable', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
+  { name: 'Eastern Communications', logo: 'https://icons.duckduckgo.com/ip3/eastern.com.ph.ico' },
+  { name: 'Bayantel', logo: 'https://icons.duckduckgo.com/ip3/bayantel.com.ico' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>

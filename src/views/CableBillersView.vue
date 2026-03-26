@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Netflix', logo: 'https://logo.clearbit.com/netflix.com', popular: true },
-  { name: 'Disney+', logo: 'https://logo.clearbit.com/disneyplus.com', popular: true },
-  { name: 'HBO GO', logo: 'https://logo.clearbit.com/hbogoasia.ph', popular: true },
-  { name: 'Cignal TV', logo: 'https://logo.clearbit.com/cignal.tv' },
-  { name: 'Sky Cable', logo: 'https://logo.clearbit.com/mysky.com.ph' },
-  { name: 'Spotify Premium', logo: 'https://logo.clearbit.com/spotify.com' },
-  { name: 'YouTube Premium', logo: 'https://logo.clearbit.com/youtube.com' },
-  { name: 'Amazon Prime', logo: 'https://logo.clearbit.com/primevideo.com' },
-  { name: 'iWantTFC', logo: 'https://logo.clearbit.com/iwanttfc.com' },
-  { name: 'Viu Premium', logo: 'https://logo.clearbit.com/viu.com' },
-  { name: 'WeTV', logo: 'https://logo.clearbit.com/wetv.vip' },
-  { name: 'Apple TV+', logo: 'https://logo.clearbit.com/tv.apple.com' },
+  { name: 'Netflix', logo: 'https://icons.duckduckgo.com/ip3/netflix.com.ico', popular: true },
+  { name: 'Disney+', logo: 'https://icons.duckduckgo.com/ip3/disneyplus.com.ico', popular: true },
+  { name: 'HBO GO', logo: 'https://icons.duckduckgo.com/ip3/hbogoasia.ph.ico', popular: true },
+  { name: 'Cignal TV', logo: 'https://icons.duckduckgo.com/ip3/cignal.tv.ico' },
+  { name: 'Sky Cable', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
+  { name: 'Spotify Premium', logo: 'https://icons.duckduckgo.com/ip3/spotify.com.ico' },
+  { name: 'YouTube Premium', logo: 'https://icons.duckduckgo.com/ip3/youtube.com.ico' },
+  { name: 'Amazon Prime', logo: 'https://icons.duckduckgo.com/ip3/primevideo.com.ico' },
+  { name: 'iWantTFC', logo: 'https://icons.duckduckgo.com/ip3/iwanttfc.com.ico' },
+  { name: 'Viu Premium', logo: 'https://icons.duckduckgo.com/ip3/viu.com.ico' },
+  { name: 'WeTV', logo: 'https://icons.duckduckgo.com/ip3/wetv.vip.ico' },
+  { name: 'Apple TV+', logo: 'https://icons.duckduckgo.com/ip3/tv.apple.com.ico' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>

@@ -10,16 +10,16 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Meralco', logo: 'https://logo.clearbit.com/meralco.com.ph', popular: true },
-  { name: 'Manila Water', logo: 'https://logo.clearbit.com/manilawater.com', popular: true },
-  { name: 'Maynilad', logo: 'https://logo.clearbit.com/mayniladwater.com.ph', popular: true },
-  { name: 'NGCP', logo: 'https://logo.clearbit.com/ngcp.ph' },
-  { name: 'Benguet Electric', logo: 'https://logo.clearbit.com/beneco.com.ph' },
-  { name: 'Davao Light', logo: 'https://logo.clearbit.com/davaolight.com' },
-  { name: 'Cebu Electric', logo: 'https://logo.clearbit.com/veco.com.ph' },
-  { name: 'Cagayan Electric', logo: 'https://logo.clearbit.com/cepalco.com.ph' },
-  { name: 'Dumaguete Electric', logo: 'https://logo.clearbit.com/noreco2.com' },
-  { name: 'MetroPac Water', logo: 'https://logo.clearbit.com/metropacificwater.com' },
+  { name: 'Meralco', logo: 'https://icons.duckduckgo.com/ip3/meralco.com.ph.ico', popular: true },
+  { name: 'Manila Water', logo: 'https://icons.duckduckgo.com/ip3/manilawater.com.ico', popular: true },
+  { name: 'Maynilad', logo: 'https://icons.duckduckgo.com/ip3/mayniladwater.com.ph.ico', popular: true },
+  { name: 'NGCP', logo: 'https://icons.duckduckgo.com/ip3/ngcp.ph.ico' },
+  { name: 'Benguet Electric', logo: 'https://icons.duckduckgo.com/ip3/beneco.com.ph.ico' },
+  { name: 'Davao Light', logo: 'https://icons.duckduckgo.com/ip3/davaolight.com.ico' },
+  { name: 'Cebu Electric', logo: 'https://icons.duckduckgo.com/ip3/veco.com.ph.ico' },
+  { name: 'Cagayan Electric', logo: 'https://icons.duckduckgo.com/ip3/cepalco.com.ph.ico' },
+  { name: 'Dumaguete Electric', logo: 'https://icons.duckduckgo.com/ip3/noreco2.com.ico' },
+  { name: 'MetroPac Water', logo: 'https://icons.duckduckgo.com/ip3/metropacificwater.com.ico' },
 ]
 
 // Modal state
@@ -77,7 +77,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -102,7 +102,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>

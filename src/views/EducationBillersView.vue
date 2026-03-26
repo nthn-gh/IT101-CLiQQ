@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Ateneo de Manila University', logo: 'https://logo.clearbit.com/ateneo.edu', popular: true, category: 'University' },
-  { name: 'De La Salle University', logo: 'https://logo.clearbit.com/dlsu.edu.ph', popular: true, category: 'University' },
-  { name: 'University of the Philippines', logo: 'https://logo.clearbit.com/up.edu.ph', popular: true, category: 'University' },
-  { name: 'University of Santo Tomas', logo: 'https://logo.clearbit.com/ust.edu.ph', category: 'University' },
-  { name: 'Polytechnic University of the Philippines', logo: 'https://logo.clearbit.com/pup.edu.ph', category: 'University' },
-  { name: 'Far Eastern University', logo: 'https://logo.clearbit.com/feu.edu.ph', category: 'University' },
-  { name: 'Mapúa University', logo: 'https://logo.clearbit.com/mapua.edu.ph', category: 'University' },
-  { name: 'Adamson University', logo: 'https://logo.clearbit.com/adamson.edu.ph', category: 'University' },
-  { name: 'Centro Escolar University', logo: 'https://logo.clearbit.com/ceu.edu.ph', category: 'University' },
-  { name: 'Saint Louis University', logo: 'https://logo.clearbit.com/slu.edu.ph', category: 'University' },
-  { name: 'Kumon', logo: 'https://logo.clearbit.com/kumon.com', category: 'Tutorial' },
-  { name: 'Mind Gym', logo: 'https://logo.clearbit.com/mindgym.com', category: 'Tutorial' },
+  { name: 'Ateneo de Manila University', logo: 'https://icons.duckduckgo.com/ip3/ateneo.edu.ico', popular: true, category: 'University' },
+  { name: 'De La Salle University', logo: 'https://icons.duckduckgo.com/ip3/dlsu.edu.ph.ico', popular: true, category: 'University' },
+  { name: 'University of the Philippines', logo: 'https://icons.duckduckgo.com/ip3/up.edu.ph.ico', popular: true, category: 'University' },
+  { name: 'University of Santo Tomas', logo: 'https://icons.duckduckgo.com/ip3/ust.edu.ph.ico', category: 'University' },
+  { name: 'Polytechnic University of the Philippines', logo: 'https://icons.duckduckgo.com/ip3/pup.edu.ph.ico', category: 'University' },
+  { name: 'Far Eastern University', logo: 'https://icons.duckduckgo.com/ip3/feu.edu.ph.ico', category: 'University' },
+  { name: 'Mapúa University', logo: 'https://icons.duckduckgo.com/ip3/mapua.edu.ph.ico', category: 'University' },
+  { name: 'Adamson University', logo: 'https://icons.duckduckgo.com/ip3/adamson.edu.ph.ico', category: 'University' },
+  { name: 'Centro Escolar University', logo: 'https://icons.duckduckgo.com/ip3/ceu.edu.ph.ico', category: 'University' },
+  { name: 'Saint Louis University', logo: 'https://icons.duckduckgo.com/ip3/slu.edu.ph.ico', category: 'University' },
+  { name: 'Kumon', logo: 'https://icons.duckduckgo.com/ip3/kumon.com.ico', category: 'Tutorial' },
+  { name: 'Mind Gym', logo: 'https://icons.duckduckgo.com/ip3/mindgym.com.ico', category: 'Tutorial' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -125,7 +125,7 @@ const closeSuccessModal = () => {
             class="biller-item"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
