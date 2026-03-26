@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Ateneo de Manila University', logo: '🎓', popular: true, category: 'University' },
-  { name: 'De La Salle University', logo: '🟢', popular: true, category: 'University' },
-  { name: 'University of the Philippines', logo: '🔴', popular: true, category: 'University' },
-  { name: 'University of Santo Tomas', logo: '🟡', category: 'University' },
-  { name: 'Polytechnic University of the Philippines', logo: '📚', category: 'University' },
-  { name: 'Far Eastern University', logo: '📘', category: 'University' },
-  { name: 'Mapúa University', logo: '🔨', category: 'University' },
-  { name: 'Adamson University', logo: '💙', category: 'University' },
-  { name: 'Centro Escolar University', logo: '📖', category: 'University' },
-  { name: 'Saint Louis University', logo: '⛪', category: 'University' },
-  { name: 'Kumon', logo: '✏️', category: 'Tutorial' },
-  { name: 'Mind Gym', logo: '🧠', category: 'Tutorial' },
+  { name: 'Ateneo de Manila University', logo: 'https://logo.clearbit.com/ateneo.edu', popular: true, category: 'University' },
+  { name: 'De La Salle University', logo: 'https://logo.clearbit.com/dlsu.edu.ph', popular: true, category: 'University' },
+  { name: 'University of the Philippines', logo: 'https://logo.clearbit.com/up.edu.ph', popular: true, category: 'University' },
+  { name: 'University of Santo Tomas', logo: 'https://logo.clearbit.com/ust.edu.ph', category: 'University' },
+  { name: 'Polytechnic University of the Philippines', logo: 'https://logo.clearbit.com/pup.edu.ph', category: 'University' },
+  { name: 'Far Eastern University', logo: 'https://logo.clearbit.com/feu.edu.ph', category: 'University' },
+  { name: 'Mapúa University', logo: 'https://logo.clearbit.com/mapua.edu.ph', category: 'University' },
+  { name: 'Adamson University', logo: 'https://logo.clearbit.com/adamson.edu.ph', category: 'University' },
+  { name: 'Centro Escolar University', logo: 'https://logo.clearbit.com/ceu.edu.ph', category: 'University' },
+  { name: 'Saint Louis University', logo: 'https://logo.clearbit.com/slu.edu.ph', category: 'University' },
+  { name: 'Kumon', logo: 'https://logo.clearbit.com/kumon.com', category: 'Tutorial' },
+  { name: 'Mind Gym', logo: 'https://logo.clearbit.com/mindgym.com', category: 'Tutorial' },
 ]
 
 // Modal state
@@ -78,7 +78,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>{{ biller.category }}</p>
@@ -101,7 +103,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay tuition and fees</p>
@@ -120,7 +124,9 @@ const closeSuccessModal = () => {
             :key="biller.name"
             class="biller-item"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay enrollment fees</p>
@@ -269,6 +275,13 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
   background: var(--color-surface);
   border-radius: var(--radius-md);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {

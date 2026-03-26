@@ -10,16 +10,16 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Meralco', logo: '⚡', popular: true },
-  { name: 'Manila Water', logo: '💧', popular: true },
-  { name: 'Maynilad', logo: '💧', popular: true },
-  { name: 'NGCP', logo: '🔌' },
-  { name: 'Benguet Electric', logo: '⚡' },
-  { name: 'Davao Light', logo: '💡' },
-  { name: 'Cebu Electric', logo: '⚡' },
-  { name: 'Cagayan Electric', logo: '💡' },
-  { name: 'Dumaguete Electric', logo: '⚡' },
-  { name: 'MetroPac Water', logo: '💧' },
+  { name: 'Meralco', logo: 'https://logo.clearbit.com/meralco.com.ph', popular: true },
+  { name: 'Manila Water', logo: 'https://logo.clearbit.com/manilawater.com', popular: true },
+  { name: 'Maynilad', logo: 'https://logo.clearbit.com/mayniladwater.com.ph', popular: true },
+  { name: 'NGCP', logo: 'https://logo.clearbit.com/ngcp.ph' },
+  { name: 'Benguet Electric', logo: 'https://logo.clearbit.com/beneco.com.ph' },
+  { name: 'Davao Light', logo: 'https://logo.clearbit.com/davaolight.com' },
+  { name: 'Cebu Electric', logo: 'https://logo.clearbit.com/veco.com.ph' },
+  { name: 'Cagayan Electric', logo: 'https://logo.clearbit.com/cepalco.com.ph' },
+  { name: 'Dumaguete Electric', logo: 'https://logo.clearbit.com/noreco2.com' },
+  { name: 'MetroPac Water', logo: 'https://logo.clearbit.com/metropacificwater.com' },
 ]
 
 // Modal state
@@ -76,7 +76,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay your bill</p>
@@ -99,7 +101,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay your bill</p>
@@ -243,6 +247,13 @@ const closeSuccessModal = () => {
   border-radius: var(--radius-md);
   font-size: 28px;
   flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {

@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Globe Postpaid', logo: '🌐', popular: true },
-  { name: 'Smart/TNT/Sun', logo: '📱', popular: true },
-  { name: 'PLDT Home', logo: '🏠', popular: true },
-  { name: 'Converge ICT', logo: '🌐' },
-  { name: 'DITO Telecommunity', logo: '📡' },
-  { name: 'Sky Broadband', logo: '📺' },
-  { name: 'Globe At Home', logo: '🏠' },
-  { name: 'PLDT Fibr', logo: '⚡' },
-  { name: 'Cignal TV', logo: '📡' },
-  { name: 'Sky Cable', logo: '📺' },
-  { name: 'Eastern Communications', logo: '🌐' },
-  { name: 'Bayantel', logo: '📞' },
+  { name: 'Globe Postpaid', logo: 'https://logo.clearbit.com/globe.com.ph', popular: true },
+  { name: 'Smart/TNT/Sun', logo: 'https://logo.clearbit.com/smart.com.ph', popular: true },
+  { name: 'PLDT Home', logo: 'https://logo.clearbit.com/pldt.com.ph', popular: true },
+  { name: 'Converge ICT', logo: 'https://logo.clearbit.com/convergeict.com' },
+  { name: 'DITO Telecommunity', logo: 'https://logo.clearbit.com/dito.ph' },
+  { name: 'Sky Broadband', logo: 'https://logo.clearbit.com/mysky.com.ph' },
+  { name: 'Globe At Home', logo: 'https://logo.clearbit.com/globe.com.ph' },
+  { name: 'PLDT Fibr', logo: 'https://logo.clearbit.com/pldt.com.ph' },
+  { name: 'Cignal TV', logo: 'https://logo.clearbit.com/cignal.tv' },
+  { name: 'Sky Cable', logo: 'https://logo.clearbit.com/mysky.com.ph' },
+  { name: 'Eastern Communications', logo: 'https://logo.clearbit.com/eastern.com.ph' },
+  { name: 'Bayantel', logo: 'https://logo.clearbit.com/bayantel.com' },
 ]
 
 // Modal state
@@ -78,7 +78,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay your bill</p>
@@ -101,7 +103,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Pay your bill</p>
@@ -245,6 +249,13 @@ const closeSuccessModal = () => {
   border-radius: var(--radius-md);
   font-size: 28px;
   flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {

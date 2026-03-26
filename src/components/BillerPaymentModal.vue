@@ -97,7 +97,7 @@ const accountPlaceholder = computed(() => {
 
         <div class="modal-header">
           <div class="biller-logo" v-if="billerLogo">
-            {{ billerLogo }}
+            <img :src="billerLogo" :alt="`${billerName} logo`" />
           </div>
           <div class="header-icon" v-else>
             <Icons name="download" :size="32" />
@@ -273,7 +273,13 @@ const accountPlaceholder = computed(() => {
     align-items: center;
     justify-content: center;
     margin: 0 auto var(--spacing-md);
-    font-size: 32px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+    }
   }
 
   .header-icon {

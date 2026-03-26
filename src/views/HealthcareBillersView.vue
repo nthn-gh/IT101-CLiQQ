@@ -10,14 +10,14 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Maxicare', logo: '🏥', popular: true, desc: 'Health Maintenance Organization' },
-  { name: 'Medicard', logo: '💊', popular: true, desc: 'Health Insurance Provider' },
-  { name: 'PhilHealth', logo: '🏥', popular: true, desc: 'National Health Insurance' },
-  { name: 'Intellicare', logo: '❤️', desc: 'Healthcare Programs' },
-  { name: 'Pacific Cross', logo: '✚', desc: 'International Health Insurance' },
-  { name: 'Cocolife', logo: '🌴', desc: 'Life & Health Insurance' },
-  { name: 'AXA Philippines', logo: '🛡️', desc: 'Health Insurance Solutions' },
-  { name: 'Kaiser International', logo: '⚕️', desc: 'Health Maintenance Services' },
+  { name: 'Maxicare', logo: 'https://logo.clearbit.com/maxicare.com.ph', popular: true, desc: 'Health Maintenance Organization' },
+  { name: 'Medicard', logo: 'https://logo.clearbit.com/medicardphils.com', popular: true, desc: 'Health Insurance Provider' },
+  { name: 'PhilHealth', logo: 'https://logo.clearbit.com/philhealth.gov.ph', popular: true, desc: 'National Health Insurance' },
+  { name: 'Intellicare', logo: 'https://logo.clearbit.com/intellicare.com.ph', desc: 'Healthcare Programs' },
+  { name: 'Pacific Cross', logo: 'https://logo.clearbit.com/pacificcross.com.ph', desc: 'International Health Insurance' },
+  { name: 'Cocolife', logo: 'https://logo.clearbit.com/cocolife.com', desc: 'Life & Health Insurance' },
+  { name: 'AXA Philippines', logo: 'https://logo.clearbit.com/axa.com.ph', desc: 'Health Insurance Solutions' },
+  { name: 'Kaiser International', logo: 'https://logo.clearbit.com/kaiserhealthgroup.com.ph', desc: 'Health Maintenance Services' },
 ]
 
 // Modal state
@@ -74,7 +74,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>{{ biller.desc }}</p>
@@ -97,7 +99,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>{{ biller.desc }}</p>
@@ -246,6 +250,13 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
   background: var(--color-surface);
   border-radius: var(--radius-md);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {

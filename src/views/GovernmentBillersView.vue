@@ -10,21 +10,21 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'SSS', logo: '🏛️', popular: true, desc: 'Social Security System' },
-  { name: 'PhilHealth', logo: '🏥', popular: true, desc: 'Health Insurance' },
-  { name: 'Pag-IBIG', logo: '🏠', popular: true, desc: 'Home Development Fund' },
-  { name: 'BIR', logo: '💰', desc: 'Bureau of Internal Revenue' },
-  { name: 'LTO', logo: '🚗', desc: 'Land Transportation Office' },
-  { name: 'NBI Clearance', logo: '🆔', desc: 'National Bureau of Investigation' },
-  { name: 'DFA Passport', logo: '📕', desc: 'Department of Foreign Affairs' },
-  { name: 'PSA Birth Certificate', logo: '📄', desc: 'Philippine Statistics Authority' },
-  { name: 'GSIS', logo: '🏢', desc: 'Government Service Insurance System' },
-  { name: 'LGU Taxes', logo: '🏛️', desc: 'Local Government Unit' },
-  { name: 'NFA', logo: '🌾', desc: 'National Food Authority' },
-  { name: 'Postal ID', logo: '📮', desc: 'Philippine Postal Corporation' },
-  { name: 'PRC', logo: '📜', desc: 'Professional Regulation Commission' },
-  { name: 'DTI', logo: '💼', desc: 'Department of Trade and Industry' },
-  { name: 'SEC', logo: '📊', desc: 'Securities and Exchange Commission' },
+  { name: 'SSS', logo: 'https://logo.clearbit.com/sss.gov.ph', popular: true, desc: 'Social Security System' },
+  { name: 'PhilHealth', logo: 'https://logo.clearbit.com/philhealth.gov.ph', popular: true, desc: 'Health Insurance' },
+  { name: 'Pag-IBIG', logo: 'https://logo.clearbit.com/pagibigfund.gov.ph', popular: true, desc: 'Home Development Fund' },
+  { name: 'BIR', logo: 'https://logo.clearbit.com/bir.gov.ph', desc: 'Bureau of Internal Revenue' },
+  { name: 'LTO', logo: 'https://logo.clearbit.com/lto.gov.ph', desc: 'Land Transportation Office' },
+  { name: 'NBI Clearance', logo: 'https://logo.clearbit.com/nbi.gov.ph', desc: 'National Bureau of Investigation' },
+  { name: 'DFA Passport', logo: 'https://logo.clearbit.com/dfa.gov.ph', desc: 'Department of Foreign Affairs' },
+  { name: 'PSA Birth Certificate', logo: 'https://logo.clearbit.com/psa.gov.ph', desc: 'Philippine Statistics Authority' },
+  { name: 'GSIS', logo: 'https://logo.clearbit.com/gsis.gov.ph', desc: 'Government Service Insurance System' },
+  { name: 'LGU Taxes', logo: 'https://logo.clearbit.com/dilg.gov.ph', desc: 'Local Government Unit' },
+  { name: 'NFA', logo: 'https://logo.clearbit.com/nfa.gov.ph', desc: 'National Food Authority' },
+  { name: 'Postal ID', logo: 'https://logo.clearbit.com/phlpost.gov.ph', desc: 'Philippine Postal Corporation' },
+  { name: 'PRC', logo: 'https://logo.clearbit.com/prc.gov.ph', desc: 'Professional Regulation Commission' },
+  { name: 'DTI', logo: 'https://logo.clearbit.com/dti.gov.ph', desc: 'Department of Trade and Industry' },
+  { name: 'SEC', logo: 'https://logo.clearbit.com/sec.gov.ph', desc: 'Securities and Exchange Commission' },
 ]
 
 // Modal state
@@ -81,7 +81,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>{{ biller.desc }}</p>
@@ -104,7 +106,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>{{ biller.desc }}</p>
@@ -245,6 +249,13 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
   background: var(--color-surface);
   border-radius: var(--radius-md);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {

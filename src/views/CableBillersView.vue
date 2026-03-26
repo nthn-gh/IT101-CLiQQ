@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Netflix', logo: '🎬', popular: true },
-  { name: 'Disney+', logo: '✨', popular: true },
-  { name: 'HBO GO', logo: '🎭', popular: true },
-  { name: 'Cignal TV', logo: '📺' },
-  { name: 'Sky Cable', logo: '📡' },
-  { name: 'Spotify Premium', logo: '🎵' },
-  { name: 'YouTube Premium', logo: '▶️' },
-  { name: 'Amazon Prime', logo: '📦' },
-  { name: 'iWantTFC', logo: '📺' },
-  { name: 'Viu Premium', logo: '🎬' },
-  { name: 'WeTV', logo: '📱' },
-  { name: 'Apple TV+', logo: '🍎' },
+  { name: 'Netflix', logo: 'https://logo.clearbit.com/netflix.com', popular: true },
+  { name: 'Disney+', logo: 'https://logo.clearbit.com/disneyplus.com', popular: true },
+  { name: 'HBO GO', logo: 'https://logo.clearbit.com/hbogoasia.ph', popular: true },
+  { name: 'Cignal TV', logo: 'https://logo.clearbit.com/cignal.tv' },
+  { name: 'Sky Cable', logo: 'https://logo.clearbit.com/mysky.com.ph' },
+  { name: 'Spotify Premium', logo: 'https://logo.clearbit.com/spotify.com' },
+  { name: 'YouTube Premium', logo: 'https://logo.clearbit.com/youtube.com' },
+  { name: 'Amazon Prime', logo: 'https://logo.clearbit.com/primevideo.com' },
+  { name: 'iWantTFC', logo: 'https://logo.clearbit.com/iwanttfc.com' },
+  { name: 'Viu Premium', logo: 'https://logo.clearbit.com/viu.com' },
+  { name: 'WeTV', logo: 'https://logo.clearbit.com/wetv.vip' },
+  { name: 'Apple TV+', logo: 'https://logo.clearbit.com/tv.apple.com' },
 ]
 
 // Modal state
@@ -78,7 +78,9 @@ const closeSuccessModal = () => {
             class="biller-item popular"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Subscribe or renew</p>
@@ -101,7 +103,9 @@ const closeSuccessModal = () => {
             class="biller-item"
             @click="openPaymentModal(biller)"
           >
-            <div class="biller-logo">{{ biller.logo }}</div>
+            <div class="biller-logo">
+              <img :src="biller.logo" :alt="`${biller.name} logo`" />
+            </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
               <p>Subscribe or renew</p>
@@ -242,6 +246,13 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
   background: var(--color-surface);
   border-radius: var(--radius-md);
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: var(--radius-md);
+  }
 }
 
 .biller-info {
