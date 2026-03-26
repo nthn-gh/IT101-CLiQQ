@@ -10,14 +10,14 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Maxicare', logo: 'https://icons.duckduckgo.com/ip3/maxicare.com.ph.ico', popular: true, desc: 'Health Maintenance Organization' },
-  { name: 'Medicard', logo: 'https://icons.duckduckgo.com/ip3/medicardphils.com.ico', popular: true, desc: 'Health Insurance Provider' },
-  { name: 'PhilHealth', logo: 'https://icons.duckduckgo.com/ip3/philhealth.gov.ph.ico', popular: true, desc: 'National Health Insurance' },
-  { name: 'Intellicare', logo: 'https://icons.duckduckgo.com/ip3/intellicare.com.ph.ico', desc: 'Healthcare Programs' },
-  { name: 'Pacific Cross', logo: 'https://icons.duckduckgo.com/ip3/pacificcross.com.ph.ico', desc: 'International Health Insurance' },
-  { name: 'Cocolife', logo: 'https://icons.duckduckgo.com/ip3/cocolife.com.ico', desc: 'Life & Health Insurance' },
-  { name: 'AXA Philippines', logo: 'https://icons.duckduckgo.com/ip3/axa.com.ph.ico', desc: 'Health Insurance Solutions' },
-  { name: 'Kaiser International', logo: 'https://icons.duckduckgo.com/ip3/kaiserhealthgroup.com.ph.ico', desc: 'Health Maintenance Services' },
+  { name: 'Maxicare', logo: '/logos/billers/maxicare.png', popular: true, desc: 'Health Maintenance Organization' },
+  { name: 'Medicard', logo: '/logos/billers/medicard.png', popular: true, desc: 'Health Insurance Provider' },
+  { name: 'PhilHealth', logo: '/logos/billers/philhealth.png', popular: true, desc: 'National Health Insurance' },
+  { name: 'Intellicare', logo: '/logos/billers/intellicare.png', desc: 'Healthcare Programs' },
+  { name: 'Pacific Cross', logo: '/logos/billers/pacific-cross.png', desc: 'International Health Insurance' },
+  { name: 'Cocolife', logo: '/logos/billers/cocolife.png', desc: 'Life & Health Insurance' },
+  { name: 'AXA Philippines', logo: '/logos/billers/axa-philippines.png', desc: 'Health Insurance Solutions' },
+  { name: 'Kaiser International', logo: '/logos/billers/kaiser-international.png', desc: 'Health Maintenance Services' },
 ]
 
 // Modal state

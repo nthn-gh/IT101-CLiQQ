@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Netflix', logo: 'https://icons.duckduckgo.com/ip3/netflix.com.ico', popular: true },
-  { name: 'Disney+', logo: 'https://icons.duckduckgo.com/ip3/disneyplus.com.ico', popular: true },
-  { name: 'HBO GO', logo: 'https://icons.duckduckgo.com/ip3/hbogoasia.ph.ico', popular: true },
-  { name: 'Cignal TV', logo: 'https://icons.duckduckgo.com/ip3/cignal.tv.ico' },
-  { name: 'Sky Cable', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
-  { name: 'Spotify Premium', logo: 'https://icons.duckduckgo.com/ip3/spotify.com.ico' },
-  { name: 'YouTube Premium', logo: 'https://icons.duckduckgo.com/ip3/youtube.com.ico' },
-  { name: 'Amazon Prime', logo: 'https://icons.duckduckgo.com/ip3/primevideo.com.ico' },
-  { name: 'iWantTFC', logo: 'https://icons.duckduckgo.com/ip3/iwanttfc.com.ico' },
-  { name: 'Viu Premium', logo: 'https://icons.duckduckgo.com/ip3/viu.com.ico' },
-  { name: 'WeTV', logo: 'https://icons.duckduckgo.com/ip3/wetv.vip.ico' },
-  { name: 'Apple TV+', logo: 'https://icons.duckduckgo.com/ip3/tv.apple.com.ico' },
+  { name: 'Netflix', logo: '/logos/billers/netflix.png', popular: true },
+  { name: 'Disney+', logo: '/logos/billers/disney.png', popular: true },
+  { name: 'HBO GO', logo: '/logos/billers/hbo-go.png', popular: true },
+  { name: 'Cignal TV', logo: '/logos/billers/cignal-tv.png' },
+  { name: 'Sky Cable', logo: '/logos/billers/sky-cable.png' },
+  { name: 'Spotify Premium', logo: '/logos/billers/spotify-premium.png' },
+  { name: 'YouTube Premium', logo: '/logos/billers/youtube-premium.png' },
+  { name: 'Amazon Prime', logo: '/logos/billers/amazon-prime.png' },
+  { name: 'iWantTFC', logo: '/logos/billers/iwanttfc.png' },
+  { name: 'Viu Premium', logo: '/logos/billers/viu-premium.png' },
+  { name: 'WeTV', logo: '/logos/billers/wetv.png' },
+  { name: 'Apple TV+', logo: '/logos/billers/apple-tv.png' },
 ]
 
 // Modal state

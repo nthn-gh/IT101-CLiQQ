@@ -10,21 +10,21 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'SSS', logo: 'https://icons.duckduckgo.com/ip3/sss.gov.ph.ico', popular: true, desc: 'Social Security System' },
-  { name: 'PhilHealth', logo: 'https://icons.duckduckgo.com/ip3/philhealth.gov.ph.ico', popular: true, desc: 'Health Insurance' },
-  { name: 'Pag-IBIG', logo: 'https://icons.duckduckgo.com/ip3/pagibigfund.gov.ph.ico', popular: true, desc: 'Home Development Fund' },
-  { name: 'BIR', logo: 'https://icons.duckduckgo.com/ip3/bir.gov.ph.ico', desc: 'Bureau of Internal Revenue' },
-  { name: 'LTO', logo: 'https://icons.duckduckgo.com/ip3/lto.gov.ph.ico', desc: 'Land Transportation Office' },
-  { name: 'NBI Clearance', logo: 'https://icons.duckduckgo.com/ip3/nbi.gov.ph.ico', desc: 'National Bureau of Investigation' },
-  { name: 'DFA Passport', logo: 'https://icons.duckduckgo.com/ip3/dfa.gov.ph.ico', desc: 'Department of Foreign Affairs' },
-  { name: 'PSA Birth Certificate', logo: 'https://icons.duckduckgo.com/ip3/psa.gov.ph.ico', desc: 'Philippine Statistics Authority' },
-  { name: 'GSIS', logo: 'https://icons.duckduckgo.com/ip3/gsis.gov.ph.ico', desc: 'Government Service Insurance System' },
-  { name: 'LGU Taxes', logo: 'https://icons.duckduckgo.com/ip3/dilg.gov.ph.ico', desc: 'Local Government Unit' },
-  { name: 'NFA', logo: 'https://icons.duckduckgo.com/ip3/nfa.gov.ph.ico', desc: 'National Food Authority' },
-  { name: 'Postal ID', logo: 'https://icons.duckduckgo.com/ip3/phlpost.gov.ph.ico', desc: 'Philippine Postal Corporation' },
-  { name: 'PRC', logo: 'https://icons.duckduckgo.com/ip3/prc.gov.ph.ico', desc: 'Professional Regulation Commission' },
-  { name: 'DTI', logo: 'https://icons.duckduckgo.com/ip3/dti.gov.ph.ico', desc: 'Department of Trade and Industry' },
-  { name: 'SEC', logo: 'https://icons.duckduckgo.com/ip3/sec.gov.ph.ico', desc: 'Securities and Exchange Commission' },
+  { name: 'SSS', logo: '/logos/billers/sss.png', popular: true, desc: 'Social Security System' },
+  { name: 'PhilHealth', logo: '/logos/billers/philhealth.png', popular: true, desc: 'Health Insurance' },
+  { name: 'Pag-IBIG', logo: '/logos/billers/pag-ibig.png', popular: true, desc: 'Home Development Fund' },
+  { name: 'BIR', logo: '/logos/billers/bir.png', desc: 'Bureau of Internal Revenue' },
+  { name: 'LTO', logo: '/logos/billers/lto.png', desc: 'Land Transportation Office' },
+  { name: 'NBI Clearance', logo: '/logos/billers/nbi-clearance.png', desc: 'National Bureau of Investigation' },
+  { name: 'DFA Passport', logo: '/logos/billers/dfa-passport.png', desc: 'Department of Foreign Affairs' },
+  { name: 'PSA Birth Certificate', logo: '/logos/billers/psa-birth-certificate.png', desc: 'Philippine Statistics Authority' },
+  { name: 'GSIS', logo: '/logos/billers/gsis.png', desc: 'Government Service Insurance System' },
+  { name: 'LGU Taxes', logo: '/logos/billers/lgu-taxes.png', desc: 'Local Government Unit' },
+  { name: 'NFA', logo: '/logos/billers/nfa.png', desc: 'National Food Authority' },
+  { name: 'Postal ID', logo: '/logos/billers/postal-id.png', desc: 'Philippine Postal Corporation' },
+  { name: 'PRC', logo: '/logos/billers/prc.png', desc: 'Professional Regulation Commission' },
+  { name: 'DTI', logo: '/logos/billers/dti.png', desc: 'Department of Trade and Industry' },
+  { name: 'SEC', logo: '/logos/billers/sec.png', desc: 'Securities and Exchange Commission' },
 ]
 
 // Modal state

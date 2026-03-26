@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Globe Postpaid', logo: 'https://icons.duckduckgo.com/ip3/globe.com.ph.ico', popular: true },
-  { name: 'Smart/TNT/Sun', logo: 'https://icons.duckduckgo.com/ip3/smart.com.ph.ico', popular: true },
-  { name: 'PLDT Home', logo: 'https://icons.duckduckgo.com/ip3/pldt.com.ph.ico', popular: true },
-  { name: 'Converge ICT', logo: 'https://icons.duckduckgo.com/ip3/convergeict.com.ico' },
-  { name: 'DITO Telecommunity', logo: 'https://icons.duckduckgo.com/ip3/dito.ph.ico' },
-  { name: 'Sky Broadband', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
-  { name: 'Globe At Home', logo: 'https://icons.duckduckgo.com/ip3/globe.com.ph.ico' },
-  { name: 'PLDT Fibr', logo: 'https://icons.duckduckgo.com/ip3/pldt.com.ph.ico' },
-  { name: 'Cignal TV', logo: 'https://icons.duckduckgo.com/ip3/cignal.tv.ico' },
-  { name: 'Sky Cable', logo: 'https://icons.duckduckgo.com/ip3/mysky.com.ph.ico' },
-  { name: 'Eastern Communications', logo: 'https://icons.duckduckgo.com/ip3/eastern.com.ph.ico' },
-  { name: 'Bayantel', logo: 'https://icons.duckduckgo.com/ip3/bayantel.com.ico' },
+  { name: 'Globe Postpaid', logo: '/logos/billers/globe-postpaid.png', popular: true },
+  { name: 'Smart/TNT/Sun', logo: '/logos/billers/smart-tnt-sun.png', popular: true },
+  { name: 'PLDT Home', logo: '/logos/billers/pldt-home.png', popular: true },
+  { name: 'Converge ICT', logo: '/logos/billers/converge-ict.png' },
+  { name: 'DITO Telecommunity', logo: '/logos/billers/dito-telecommunity.png' },
+  { name: 'Sky Broadband', logo: '/logos/billers/sky-broadband.png' },
+  { name: 'Globe At Home', logo: '/logos/billers/globe-at-home.png' },
+  { name: 'PLDT Fibr', logo: '/logos/billers/pldt-fibr.png' },
+  { name: 'Cignal TV', logo: '/logos/billers/cignal-tv.png' },
+  { name: 'Sky Cable', logo: '/logos/billers/sky-cable.png' },
+  { name: 'Eastern Communications', logo: '/logos/billers/eastern-communications.png' },
+  { name: 'Bayantel', logo: '/logos/billers/bayantel.png' },
 ]
 
 // Modal state

@@ -10,16 +10,16 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Meralco', logo: 'https://icons.duckduckgo.com/ip3/meralco.com.ph.ico', popular: true },
-  { name: 'Manila Water', logo: 'https://icons.duckduckgo.com/ip3/manilawater.com.ico', popular: true },
-  { name: 'Maynilad', logo: 'https://icons.duckduckgo.com/ip3/mayniladwater.com.ph.ico', popular: true },
-  { name: 'NGCP', logo: 'https://icons.duckduckgo.com/ip3/ngcp.ph.ico' },
-  { name: 'Benguet Electric', logo: 'https://icons.duckduckgo.com/ip3/beneco.com.ph.ico' },
-  { name: 'Davao Light', logo: 'https://icons.duckduckgo.com/ip3/davaolight.com.ico' },
-  { name: 'Cebu Electric', logo: 'https://icons.duckduckgo.com/ip3/veco.com.ph.ico' },
-  { name: 'Cagayan Electric', logo: 'https://icons.duckduckgo.com/ip3/cepalco.com.ph.ico' },
-  { name: 'Dumaguete Electric', logo: 'https://icons.duckduckgo.com/ip3/noreco2.com.ico' },
-  { name: 'MetroPac Water', logo: 'https://icons.duckduckgo.com/ip3/metropacificwater.com.ico' },
+  { name: 'Meralco', logo: '/logos/billers/meralco.png', popular: true },
+  { name: 'Manila Water', logo: '/logos/billers/manila-water.png', popular: true },
+  { name: 'Maynilad', logo: '/logos/billers/maynilad.png', popular: true },
+  { name: 'NGCP', logo: '/logos/billers/ngcp.png' },
+  { name: 'Benguet Electric', logo: '/logos/billers/benguet-electric.png' },
+  { name: 'Davao Light', logo: '/logos/billers/davao-light.png' },
+  { name: 'Cebu Electric', logo: '/logos/billers/cebu-electric.png' },
+  { name: 'Cagayan Electric', logo: '/logos/billers/cagayan-electric.png' },
+  { name: 'Dumaguete Electric', logo: '/logos/billers/dumaguete-electric.png' },
+  { name: 'MetroPac Water', logo: '/logos/billers/metropac-water.png' },
 ]
 
 // Modal state
