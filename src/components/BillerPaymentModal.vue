@@ -97,7 +97,7 @@ const accountPlaceholder = computed(() => {
 
         <div class="modal-header">
           <div class="biller-logo" v-if="billerLogo">
-            <img :src="billerLogo" :alt="`${billerName} logo`" onerror="this.src='/cliqq-logo.png'" />
+            <img :src="billerLogo" :alt="`${billerName} logo`" onerror="this.src='cliqq-logo.png'" />
           </div>
           <div class="header-icon" v-else>
             <Icons name="download" :size="32" />

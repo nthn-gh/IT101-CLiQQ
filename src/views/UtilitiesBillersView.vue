@@ -10,16 +10,16 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Meralco', logo: '/logos/billers/meralco.png', popular: true },
-  { name: 'Manila Water', logo: '/logos/billers/manila-water.png', popular: true },
-  { name: 'Maynilad', logo: '/logos/billers/maynilad.png', popular: true },
-  { name: 'NGCP', logo: '/logos/billers/ngcp.png' },
-  { name: 'Benguet Electric', logo: '/logos/billers/benguet-electric.png' },
-  { name: 'Davao Light', logo: '/logos/billers/davao-light.png' },
-  { name: 'Cebu Electric', logo: '/logos/billers/cebu-electric.png' },
-  { name: 'Cagayan Electric', logo: '/logos/billers/cagayan-electric.png' },
-  { name: 'Dumaguete Electric', logo: '/logos/billers/dumaguete-electric.png' },
-  { name: 'MetroPac Water', logo: '/logos/billers/metropac-water.png' },
+  { name: 'Meralco', logo: 'logos/billers/meralco.png', popular: true },
+  { name: 'Manila Water', logo: 'logos/billers/manila-water.png', popular: true },
+  { name: 'Maynilad', logo: 'logos/billers/maynilad.png', popular: true },
+  { name: 'NGCP', logo: 'logos/billers/ngcp.png' },
+  { name: 'Benguet Electric', logo: 'logos/billers/benguet-electric.png' },
+  { name: 'Davao Light', logo: 'logos/billers/davao-light.png' },
+  { name: 'Cebu Electric', logo: 'logos/billers/cebu-electric.png' },
+  { name: 'Cagayan Electric', logo: 'logos/billers/cagayan-electric.png' },
+  { name: 'Dumaguete Electric', logo: 'logos/billers/dumaguete-electric.png' },
+  { name: 'MetroPac Water', logo: 'logos/billers/metropac-water.png' },
 ]
 
 // Modal state
@@ -77,7 +77,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -102,7 +102,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
