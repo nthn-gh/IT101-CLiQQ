@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Ateneo de Manila University', logo: '/logos/billers/ateneo-de-manila-university.png', popular: true, category: 'University' },
-  { name: 'De La Salle University', logo: '/logos/billers/de-la-salle-university.png', popular: true, category: 'University' },
-  { name: 'University of the Philippines', logo: '/logos/billers/university-of-the-philippines.png', popular: true, category: 'University' },
-  { name: 'University of Santo Tomas', logo: '/logos/billers/university-of-santo-tomas.png', category: 'University' },
-  { name: 'Polytechnic University of the Philippines', logo: '/logos/billers/polytechnic-university-of-the-philippines.png', category: 'University' },
-  { name: 'Far Eastern University', logo: '/logos/billers/far-eastern-university.png', category: 'University' },
-  { name: 'Mapúa University', logo: '/logos/billers/mapua-university.png', category: 'University' },
-  { name: 'Adamson University', logo: '/logos/billers/adamson-university.png', category: 'University' },
-  { name: 'Centro Escolar University', logo: '/logos/billers/centro-escolar-university.png', category: 'University' },
-  { name: 'Saint Louis University', logo: '/logos/billers/saint-louis-university.png', category: 'University' },
-  { name: 'Kumon', logo: '/logos/billers/kumon.png', category: 'Tutorial' },
-  { name: 'Mind Gym', logo: '/logos/billers/mind-gym.png', category: 'Tutorial' },
+  { name: 'Ateneo de Manila University', logo: '/IT101-CLiQQ/logos/billers/ateneo-de-manila-university.png', popular: true, category: 'University' },
+  { name: 'De La Salle University', logo: '/IT101-CLiQQ/logos/billers/de-la-salle-university.png', popular: true, category: 'University' },
+  { name: 'University of the Philippines', logo: '/IT101-CLiQQ/logos/billers/university-of-the-philippines.png', popular: true, category: 'University' },
+  { name: 'University of Santo Tomas', logo: '/IT101-CLiQQ/logos/billers/university-of-santo-tomas.png', category: 'University' },
+  { name: 'Polytechnic University of the Philippines', logo: '/IT101-CLiQQ/logos/billers/polytechnic-university-of-the-philippines.png', category: 'University' },
+  { name: 'Far Eastern University', logo: '/IT101-CLiQQ/logos/billers/far-eastern-university.png', category: 'University' },
+  { name: 'Mapúa University', logo: '/IT101-CLiQQ/logos/billers/mapua-university.png', category: 'University' },
+  { name: 'Adamson University', logo: '/IT101-CLiQQ/logos/billers/adamson-university.png', category: 'University' },
+  { name: 'Centro Escolar University', logo: '/IT101-CLiQQ/logos/billers/centro-escolar-university.png', category: 'University' },
+  { name: 'Saint Louis University', logo: '/IT101-CLiQQ/logos/billers/saint-louis-university.png', category: 'University' },
+  { name: 'Kumon', logo: '/IT101-CLiQQ/logos/billers/kumon.png', category: 'Tutorial' },
+  { name: 'Mind Gym', logo: '/IT101-CLiQQ/logos/billers/mind-gym.png', category: 'Tutorial' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -125,7 +125,7 @@ const closeSuccessModal = () => {
             class="biller-item"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -341,3 +341,4 @@ const closeSuccessModal = () => {
   }
 }
 </style>
+

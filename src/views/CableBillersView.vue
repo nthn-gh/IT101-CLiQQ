@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Netflix', logo: '/logos/billers/netflix.png', popular: true },
-  { name: 'Disney+', logo: '/logos/billers/disney.png', popular: true },
-  { name: 'HBO GO', logo: '/logos/billers/hbo-go.png', popular: true },
-  { name: 'Cignal TV', logo: '/logos/billers/cignal-tv.png' },
-  { name: 'Sky Cable', logo: '/logos/billers/sky-cable.png' },
-  { name: 'Spotify Premium', logo: '/logos/billers/spotify-premium.png' },
-  { name: 'YouTube Premium', logo: '/logos/billers/youtube-premium.png' },
-  { name: 'Amazon Prime', logo: '/logos/billers/amazon-prime.png' },
-  { name: 'iWantTFC', logo: '/logos/billers/iwanttfc.png' },
-  { name: 'Viu Premium', logo: '/logos/billers/viu-premium.png' },
-  { name: 'WeTV', logo: '/logos/billers/wetv.png' },
-  { name: 'Apple TV+', logo: '/logos/billers/apple-tv.png' },
+  { name: 'Netflix', logo: '/IT101-CLiQQ/logos/billers/netflix.png', popular: true },
+  { name: 'Disney+', logo: '/IT101-CLiQQ/logos/billers/disney.png', popular: true },
+  { name: 'HBO GO', logo: '/IT101-CLiQQ/logos/billers/hbo-go.png', popular: true },
+  { name: 'Cignal TV', logo: '/IT101-CLiQQ/logos/billers/cignal-tv.png' },
+  { name: 'Sky Cable', logo: '/IT101-CLiQQ/logos/billers/sky-cable.png' },
+  { name: 'Spotify Premium', logo: '/IT101-CLiQQ/logos/billers/spotify-premium.png' },
+  { name: 'YouTube Premium', logo: '/IT101-CLiQQ/logos/billers/youtube-premium.png' },
+  { name: 'Amazon Prime', logo: '/IT101-CLiQQ/logos/billers/amazon-prime.png' },
+  { name: 'iWantTFC', logo: '/IT101-CLiQQ/logos/billers/iwanttfc.png' },
+  { name: 'Viu Premium', logo: '/IT101-CLiQQ/logos/billers/viu-premium.png' },
+  { name: 'WeTV', logo: '/IT101-CLiQQ/logos/billers/wetv.png' },
+  { name: 'Apple TV+', logo: '/IT101-CLiQQ/logos/billers/apple-tv.png' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -290,3 +290,4 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
 }
 </style>
+

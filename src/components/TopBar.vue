@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const logoSrc = `${import.meta.env.BASE_URL}cliqq-logo.png`
+
 defineProps<{
   title?: string
   showBack?: boolean
@@ -18,7 +20,7 @@ const emit = defineEmits<{
     </button>
     
     <div v-if="!title" class="top-bar__logo">
-      <img src="/cliqq-logo.png" alt="CLiQQ" class="logo" />
+      <img :src="logoSrc" alt="CLiQQ" class="logo" />
     </div>
 
     <h1 v-else class="top-bar__title">{{ title }}</h1>
@@ -144,3 +146,4 @@ const emit = defineEmits<{
   border-radius: 50%;
 }
 </style>
+

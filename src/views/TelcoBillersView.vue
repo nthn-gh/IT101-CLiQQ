@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Globe Postpaid', logo: '/logos/billers/globe-postpaid.png', popular: true },
-  { name: 'Smart/TNT/Sun', logo: '/logos/billers/smart-tnt-sun.png', popular: true },
-  { name: 'PLDT Home', logo: '/logos/billers/pldt-home.png', popular: true },
-  { name: 'Converge ICT', logo: '/logos/billers/converge-ict.png' },
-  { name: 'DITO Telecommunity', logo: '/logos/billers/dito-telecommunity.png' },
-  { name: 'Sky Broadband', logo: '/logos/billers/sky-broadband.png' },
-  { name: 'Globe At Home', logo: '/logos/billers/globe-at-home.png' },
-  { name: 'PLDT Fibr', logo: '/logos/billers/pldt-fibr.png' },
-  { name: 'Cignal TV', logo: '/logos/billers/cignal-tv.png' },
-  { name: 'Sky Cable', logo: '/logos/billers/sky-cable.png' },
-  { name: 'Eastern Communications', logo: '/logos/billers/eastern-communications.png' },
-  { name: 'Bayantel', logo: '/logos/billers/bayantel.png' },
+  { name: 'Globe Postpaid', logo: '/IT101-CLiQQ/logos/billers/globe-postpaid.png', popular: true },
+  { name: 'Smart/TNT/Sun', logo: '/IT101-CLiQQ/logos/billers/smart-tnt-sun.png', popular: true },
+  { name: 'PLDT Home', logo: '/IT101-CLiQQ/logos/billers/pldt-home.png', popular: true },
+  { name: 'Converge ICT', logo: '/IT101-CLiQQ/logos/billers/converge-ict.png' },
+  { name: 'DITO Telecommunity', logo: '/IT101-CLiQQ/logos/billers/dito-telecommunity.png' },
+  { name: 'Sky Broadband', logo: '/IT101-CLiQQ/logos/billers/sky-broadband.png' },
+  { name: 'Globe At Home', logo: '/IT101-CLiQQ/logos/billers/globe-at-home.png' },
+  { name: 'PLDT Fibr', logo: '/IT101-CLiQQ/logos/billers/pldt-fibr.png' },
+  { name: 'Cignal TV', logo: '/IT101-CLiQQ/logos/billers/cignal-tv.png' },
+  { name: 'Sky Cable', logo: '/IT101-CLiQQ/logos/billers/sky-cable.png' },
+  { name: 'Eastern Communications', logo: '/IT101-CLiQQ/logos/billers/eastern-communications.png' },
+  { name: 'Bayantel', logo: '/IT101-CLiQQ/logos/billers/bayantel.png' },
 ]
 
 // Modal state
@@ -79,7 +79,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -104,7 +104,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -295,3 +295,4 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
 }
 </style>
+

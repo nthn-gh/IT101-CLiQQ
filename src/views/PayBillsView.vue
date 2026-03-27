@@ -11,9 +11,9 @@ const goBack = () => router.back()
 
 // Recent billers data
 const recentBillers = [
-  { name: 'Meralco', logo: '⚡', category: 'utilities', lastAmount: '2,450.50' },
-  { name: 'Manila Water', logo: '💧', category: 'utilities', lastAmount: '650.00' },
-  { name: 'PLDT Home', logo: '📞', category: 'telco', lastAmount: '1,699.00' },
+  { name: 'Meralco', logo: '/IT101-CLiQQ/logos/billers/meralco.png', category: 'utilities', lastAmount: '2,450.50' },
+  { name: 'Manila Water', logo: '/IT101-CLiQQ/logos/billers/manila-water.png', category: 'utilities', lastAmount: '650.00' },
+  { name: 'PLDT Home', logo: '/IT101-CLiQQ/logos/billers/pldt-home.png', category: 'telco', lastAmount: '1,699.00' },
 ]
 
 // Modal state
@@ -72,7 +72,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-icon">
-              <span class="biller-emoji">{{ biller.logo }}</span>
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -283,8 +283,10 @@ const closeSuccessModal = () => {
     flex-shrink: 0;
     color: var(--color-primary);
 
-    .biller-emoji {
-      font-size: 24px;
+    img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
     }
   }
 

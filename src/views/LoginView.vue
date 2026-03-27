@@ -22,6 +22,7 @@ const termsAccepted = ref(false)
 const otpCode = ref(['', '', '', '', '', ''])
 const mockOTP = '123456'
 const otpError = ref('')
+const logoSrc = `${import.meta.env.BASE_URL}cliqq-logo.png`
 
 const toggleMode = () => {
   isLogin.value = !isLogin.value
@@ -309,7 +310,7 @@ const resendOTP = () => {
       <!-- Header -->
       <div class="auth-header">
         <div class="logo-container">
-          <img src="/cliqq-logo.png" alt="CLiQQ" class="logo-image" />
+          <img :src="logoSrc" alt="CLiQQ" class="logo-image" />
           <p class="tagline">Rewards & Payments</p>
         </div>
       </div>
@@ -1120,3 +1121,4 @@ const resendOTP = () => {
   transform: translateX(-100%);
 }
 </style>
+

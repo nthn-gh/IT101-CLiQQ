@@ -10,21 +10,21 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'SSS', logo: '/logos/billers/sss.png', popular: true, desc: 'Social Security System' },
-  { name: 'PhilHealth', logo: '/logos/billers/philhealth.png', popular: true, desc: 'Health Insurance' },
-  { name: 'Pag-IBIG', logo: '/logos/billers/pag-ibig.png', popular: true, desc: 'Home Development Fund' },
-  { name: 'BIR', logo: '/logos/billers/bir.png', desc: 'Bureau of Internal Revenue' },
-  { name: 'LTO', logo: '/logos/billers/lto.png', desc: 'Land Transportation Office' },
-  { name: 'NBI Clearance', logo: '/logos/billers/nbi-clearance.png', desc: 'National Bureau of Investigation' },
-  { name: 'DFA Passport', logo: '/logos/billers/dfa-passport.png', desc: 'Department of Foreign Affairs' },
-  { name: 'PSA Birth Certificate', logo: '/logos/billers/psa-birth-certificate.png', desc: 'Philippine Statistics Authority' },
-  { name: 'GSIS', logo: '/logos/billers/gsis.png', desc: 'Government Service Insurance System' },
-  { name: 'LGU Taxes', logo: '/logos/billers/lgu-taxes.png', desc: 'Local Government Unit' },
-  { name: 'NFA', logo: '/logos/billers/nfa.png', desc: 'National Food Authority' },
-  { name: 'Postal ID', logo: '/logos/billers/postal-id.png', desc: 'Philippine Postal Corporation' },
-  { name: 'PRC', logo: '/logos/billers/prc.png', desc: 'Professional Regulation Commission' },
-  { name: 'DTI', logo: '/logos/billers/dti.png', desc: 'Department of Trade and Industry' },
-  { name: 'SEC', logo: '/logos/billers/sec.png', desc: 'Securities and Exchange Commission' },
+  { name: 'SSS', logo: '/IT101-CLiQQ/logos/billers/sss.png', popular: true, desc: 'Social Security System' },
+  { name: 'PhilHealth', logo: '/IT101-CLiQQ/logos/billers/philhealth.png', popular: true, desc: 'Health Insurance' },
+  { name: 'Pag-IBIG', logo: '/IT101-CLiQQ/logos/billers/pag-ibig.png', popular: true, desc: 'Home Development Fund' },
+  { name: 'BIR', logo: '/IT101-CLiQQ/logos/billers/bir.png', desc: 'Bureau of Internal Revenue' },
+  { name: 'LTO', logo: '/IT101-CLiQQ/logos/billers/lto.png', desc: 'Land Transportation Office' },
+  { name: 'NBI Clearance', logo: '/IT101-CLiQQ/logos/billers/nbi-clearance.png', desc: 'National Bureau of Investigation' },
+  { name: 'DFA Passport', logo: '/IT101-CLiQQ/logos/billers/dfa-passport.png', desc: 'Department of Foreign Affairs' },
+  { name: 'PSA Birth Certificate', logo: '/IT101-CLiQQ/logos/billers/psa-birth-certificate.png', desc: 'Philippine Statistics Authority' },
+  { name: 'GSIS', logo: '/IT101-CLiQQ/logos/billers/gsis.png', desc: 'Government Service Insurance System' },
+  { name: 'LGU Taxes', logo: '/IT101-CLiQQ/logos/billers/lgu-taxes.png', desc: 'Local Government Unit' },
+  { name: 'NFA', logo: '/IT101-CLiQQ/logos/billers/nfa.png', desc: 'National Food Authority' },
+  { name: 'Postal ID', logo: '/IT101-CLiQQ/logos/billers/postal-id.png', desc: 'Philippine Postal Corporation' },
+  { name: 'PRC', logo: '/IT101-CLiQQ/logos/billers/prc.png', desc: 'Professional Regulation Commission' },
+  { name: 'DTI', logo: '/IT101-CLiQQ/logos/billers/dti.png', desc: 'Department of Trade and Industry' },
+  { name: 'SEC', logo: '/IT101-CLiQQ/logos/billers/sec.png', desc: 'Securities and Exchange Commission' },
 ]
 
 // Modal state
@@ -82,7 +82,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -107,7 +107,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -293,3 +293,4 @@ const closeSuccessModal = () => {
   flex-shrink: 0;
 }
 </style>
+

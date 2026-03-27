@@ -10,14 +10,14 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Maxicare', logo: '/logos/billers/maxicare.png', popular: true, desc: 'Health Maintenance Organization' },
-  { name: 'Medicard', logo: '/logos/billers/medicard.png', popular: true, desc: 'Health Insurance Provider' },
-  { name: 'PhilHealth', logo: '/logos/billers/philhealth.png', popular: true, desc: 'National Health Insurance' },
-  { name: 'Intellicare', logo: '/logos/billers/intellicare.png', desc: 'Healthcare Programs' },
-  { name: 'Pacific Cross', logo: '/logos/billers/pacific-cross.png', desc: 'International Health Insurance' },
-  { name: 'Cocolife', logo: '/logos/billers/cocolife.png', desc: 'Life & Health Insurance' },
-  { name: 'AXA Philippines', logo: '/logos/billers/axa-philippines.png', desc: 'Health Insurance Solutions' },
-  { name: 'Kaiser International', logo: '/logos/billers/kaiser-international.png', desc: 'Health Maintenance Services' },
+  { name: 'Maxicare', logo: '/IT101-CLiQQ/logos/billers/maxicare.png', popular: true, desc: 'Health Maintenance Organization' },
+  { name: 'Medicard', logo: '/IT101-CLiQQ/logos/billers/medicard.png', popular: true, desc: 'Health Insurance Provider' },
+  { name: 'PhilHealth', logo: '/IT101-CLiQQ/logos/billers/philhealth.png', popular: true, desc: 'National Health Insurance' },
+  { name: 'Intellicare', logo: '/IT101-CLiQQ/logos/billers/intellicare.png', desc: 'Healthcare Programs' },
+  { name: 'Pacific Cross', logo: '/IT101-CLiQQ/logos/billers/pacific-cross.png', desc: 'International Health Insurance' },
+  { name: 'Cocolife', logo: '/IT101-CLiQQ/logos/billers/cocolife.png', desc: 'Life & Health Insurance' },
+  { name: 'AXA Philippines', logo: '/IT101-CLiQQ/logos/billers/axa-philippines.png', desc: 'Health Insurance Solutions' },
+  { name: 'Kaiser International', logo: '/IT101-CLiQQ/logos/billers/kaiser-international.png', desc: 'Health Maintenance Services' },
 ]
 
 // Modal state
@@ -75,7 +75,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -100,7 +100,7 @@ const closeSuccessModal = () => {
             @click="openPaymentModal(biller)"
           >
             <div class="biller-logo">
-              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='cliqq-logo.png'" />
+              <img :src="biller.logo" :alt="`${biller.name} logo`" onerror="this.src='/IT101-CLiQQ/cliqq-logo.png'" />
             </div>
             <div class="biller-info">
               <h4>{{ biller.name }}</h4>
@@ -316,3 +316,4 @@ const closeSuccessModal = () => {
   }
 }
 </style>
+
