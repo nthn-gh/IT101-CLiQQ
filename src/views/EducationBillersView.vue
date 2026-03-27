@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Ateneo de Manila University', logo: 'logos/billers/ateneo-de-manila-university.png', popular: true, category: 'University' },
-  { name: 'De La Salle University', logo: 'logos/billers/de-la-salle-university.png', popular: true, category: 'University' },
-  { name: 'University of the Philippines', logo: 'logos/billers/university-of-the-philippines.png', popular: true, category: 'University' },
-  { name: 'University of Santo Tomas', logo: 'logos/billers/university-of-santo-tomas.png', category: 'University' },
-  { name: 'Polytechnic University of the Philippines', logo: 'logos/billers/polytechnic-university-of-the-philippines.png', category: 'University' },
-  { name: 'Far Eastern University', logo: 'logos/billers/far-eastern-university.png', category: 'University' },
-  { name: 'Mapúa University', logo: 'logos/billers/mapua-university.png', category: 'University' },
-  { name: 'Adamson University', logo: 'logos/billers/adamson-university.png', category: 'University' },
-  { name: 'Centro Escolar University', logo: 'logos/billers/centro-escolar-university.png', category: 'University' },
-  { name: 'Saint Louis University', logo: 'logos/billers/saint-louis-university.png', category: 'University' },
-  { name: 'Kumon', logo: 'logos/billers/kumon.png', category: 'Tutorial' },
-  { name: 'Mind Gym', logo: 'logos/billers/mind-gym.png', category: 'Tutorial' },
+  { name: 'Ateneo de Manila University', logo: '/logos/billers/ateneo-de-manila-university.png', popular: true, category: 'University' },
+  { name: 'De La Salle University', logo: '/logos/billers/de-la-salle-university.png', popular: true, category: 'University' },
+  { name: 'University of the Philippines', logo: '/logos/billers/university-of-the-philippines.png', popular: true, category: 'University' },
+  { name: 'University of Santo Tomas', logo: '/logos/billers/university-of-santo-tomas.png', category: 'University' },
+  { name: 'Polytechnic University of the Philippines', logo: '/logos/billers/polytechnic-university-of-the-philippines.png', category: 'University' },
+  { name: 'Far Eastern University', logo: '/logos/billers/far-eastern-university.png', category: 'University' },
+  { name: 'Mapúa University', logo: '/logos/billers/mapua-university.png', category: 'University' },
+  { name: 'Adamson University', logo: '/logos/billers/adamson-university.png', category: 'University' },
+  { name: 'Centro Escolar University', logo: '/logos/billers/centro-escolar-university.png', category: 'University' },
+  { name: 'Saint Louis University', logo: '/logos/billers/saint-louis-university.png', category: 'University' },
+  { name: 'Kumon', logo: '/logos/billers/kumon.png', category: 'Tutorial' },
+  { name: 'Mind Gym', logo: '/logos/billers/mind-gym.png', category: 'Tutorial' },
 ]
 
 // Modal state

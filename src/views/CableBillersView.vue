@@ -10,18 +10,18 @@ const router = useRouter()
 const goBack = () => router.back()
 
 const billers = [
-  { name: 'Netflix', logo: 'logos/billers/netflix.png', popular: true },
-  { name: 'Disney+', logo: 'logos/billers/disney.png', popular: true },
-  { name: 'HBO GO', logo: 'logos/billers/hbo-go.png', popular: true },
-  { name: 'Cignal TV', logo: 'logos/billers/cignal-tv.png' },
-  { name: 'Sky Cable', logo: 'logos/billers/sky-cable.png' },
-  { name: 'Spotify Premium', logo: 'logos/billers/spotify-premium.png' },
-  { name: 'YouTube Premium', logo: 'logos/billers/youtube-premium.png' },
-  { name: 'Amazon Prime', logo: 'logos/billers/amazon-prime.png' },
-  { name: 'iWantTFC', logo: 'logos/billers/iwanttfc.png' },
-  { name: 'Viu Premium', logo: 'logos/billers/viu-premium.png' },
-  { name: 'WeTV', logo: 'logos/billers/wetv.png' },
-  { name: 'Apple TV+', logo: 'logos/billers/apple-tv.png' },
+  { name: 'Netflix', logo: '/logos/billers/netflix.png', popular: true },
+  { name: 'Disney+', logo: '/logos/billers/disney.png', popular: true },
+  { name: 'HBO GO', logo: '/logos/billers/hbo-go.png', popular: true },
+  { name: 'Cignal TV', logo: '/logos/billers/cignal-tv.png' },
+  { name: 'Sky Cable', logo: '/logos/billers/sky-cable.png' },
+  { name: 'Spotify Premium', logo: '/logos/billers/spotify-premium.png' },
+  { name: 'YouTube Premium', logo: '/logos/billers/youtube-premium.png' },
+  { name: 'Amazon Prime', logo: '/logos/billers/amazon-prime.png' },
+  { name: 'iWantTFC', logo: '/logos/billers/iwanttfc.png' },
+  { name: 'Viu Premium', logo: '/logos/billers/viu-premium.png' },
+  { name: 'WeTV', logo: '/logos/billers/wetv.png' },
+  { name: 'Apple TV+', logo: '/logos/billers/apple-tv.png' },
 ]
 
 // Modal state

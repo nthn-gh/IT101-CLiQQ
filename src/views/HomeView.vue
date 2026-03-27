@@ -69,6 +69,27 @@ const openPromoModal = (title: string, description: string, validUntil: string, 
 const closePromoModal = () => {
   isPromoModalOpen.value = false
 }
+
+const raffleEntries = ref(12)
+
+const newsAndPromos = [
+  {
+    id: 1,
+    category: 'Promo',
+    title: 'Double Points Fridays',
+    description: 'Earn 2x points for all in-store purchases every Friday this month.',
+    date: 'Mar 31, 2026',
+    discount: '2x'
+  },
+  {
+    id: 2,
+    category: 'News',
+    title: 'New Partner Billers Added',
+    description: 'Pay more utility and education billers directly in the app.',
+    date: 'Apr 15, 2026',
+    discount: 'NEW'
+  }
+]
 </script>
 
 <template>
@@ -153,6 +174,55 @@ const closePromoModal = () => {
             <Icons name="gift" :size="20" />
             <span>View available rewards</span>
             <Icons name="arrow-right" :size="16" />
+          </div>
+        </InfoCard>
+      </section>
+
+      <!-- Raffle Entries Card -->
+      <section class="section">
+        <InfoCard
+          title="Raffle Entries"
+          subtitle="Your current entries for this month"
+        >
+          <div class="raffle-content">
+            <div class="raffle-badge">
+              <Icons name="gift" :size="20" />
+              <span>Monthly Draw</span>
+            </div>
+            <div class="raffle-count">
+              <span class="raffle-count__value">{{ raffleEntries }}</span>
+              <span class="raffle-count__label">entries</span>
+            </div>
+          </div>
+          <button class="raffle-action" @click="router.push('/rewards')">
+            Earn more entries
+            <Icons name="arrow-right" :size="16" />
+          </button>
+        </InfoCard>
+      </section>
+
+      <!-- News and Promos Card -->
+      <section class="section">
+        <InfoCard
+          title="News & Promos"
+          subtitle="Latest updates and exclusive offers"
+        >
+          <div class="news-list">
+            <button
+              v-for="item in newsAndPromos"
+              :key="item.id"
+              class="news-item"
+              @click="openPromoModal(item.title, item.description, item.date, item.discount)"
+            >
+              <div class="news-item__badge" :class="{ 'news-item__badge--news': item.category === 'News' }">
+                {{ item.category }}
+              </div>
+              <div class="news-item__content">
+                <h4>{{ item.title }}</h4>
+                <p>{{ item.description }}</p>
+              </div>
+              <Icons name="arrow-right" :size="16" />
+            </button>
           </div>
         </InfoCard>
       </section>
@@ -437,6 +507,126 @@ const closePromoModal = () => {
   font-size: 14px;
   font-weight: 600;
   margin-top: var(--spacing-md);
+}
+
+/* Raffle Entries */
+.raffle-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.raffle-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  background: #FFF4E8;
+  color: #D85614;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.raffle-count {
+  text-align: right;
+
+  &__value {
+    display: block;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-primary);
+  }
+
+  &__label {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+}
+
+.raffle-action {
+  width: 100%;
+  border: none;
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-md);
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+/* News and Promos */
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.news-item {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-secondary);
+  padding: var(--spacing-md);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: inherit;
+
+  &:hover {
+    border-color: #FFD8BE;
+    background: #FFF9F5;
+  }
+
+  &__badge {
+    min-width: 54px;
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    color: #D85614;
+    background: #FFF0E3;
+
+    &--news {
+      color: #166534;
+      background: #DCFCE7;
+    }
+  }
+
+  &__content {
+    flex: 1;
+
+    h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      color: var(--color-text-primary);
+    }
+
+    p {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
 }
 
 /* Transactions List */
