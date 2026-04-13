@@ -297,10 +297,6 @@ const handleDownload = () => {
       pointer-events: none;
     }
 
-    input[type="number"] {
-      padding-left: calc(var(--spacing-md) + 16px);
-    }
-
     input {
       width: 100%;
       padding: var(--spacing-md);
@@ -317,6 +313,10 @@ const handleDownload = () => {
       &::placeholder {
         color: var(--color-text-tertiary);
       }
+    }
+
+    input[type="number"] {
+      padding-left: calc(var(--spacing-md) + 16px);
     }
   }
 }

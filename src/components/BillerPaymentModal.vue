@@ -334,10 +334,6 @@ const accountPlaceholder = computed(() => {
       pointer-events: none;
     }
 
-    input[type="number"] {
-      padding-left: calc(var(--spacing-md) + 16px);
-    }
-
     input[type="text"],
     input[type="number"] {
       width: 100%;
@@ -360,6 +356,10 @@ const accountPlaceholder = computed(() => {
         background: var(--color-background);
         cursor: not-allowed;
       }
+    }
+
+    input[type="number"] {
+      padding-left: calc(var(--spacing-md) + 16px);
     }
 
     .helper-text {
