@@ -114,6 +114,7 @@ const accountPlaceholder = computed(() => {
               :id="'account-' + billerName"
               v-model="accountNumber"
               type="text"
+              class="form-input"
               :placeholder="accountPlaceholder"
               :disabled="isProcessing"
             />
@@ -320,31 +321,61 @@ const accountPlaceholder = computed(() => {
     }
 
     .input-wrapper {
-      position: relative;
       display: flex;
       align-items: center;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-md);
+      transition: border-color 0.2s;
+      overflow: hidden;
+
+      &:focus-within {
+        border-color: var(--color-primary);
+      }
     }
 
     .input-prefix {
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      transform: translateY(-50%);
+      padding: 0 4px 0 14px;
       font-size: 16px;
       font-weight: 600;
       color: var(--color-text);
-      pointer-events: none;
-      z-index: 1;
+      flex-shrink: 0;
+      line-height: 1;
     }
 
     input[type="text"],
     input[type="number"] {
+      flex: 1;
+      width: 100%;
+      padding: var(--spacing-md) var(--spacing-md) var(--spacing-md) 4px;
+      border: none;
+      border-radius: 0;
+      font-size: 16px;
+      transition: all 0.2s;
+      background: transparent;
+
+      &:focus {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: var(--color-text-tertiary);
+      }
+
+      &:disabled {
+        background: var(--color-background);
+        cursor: not-allowed;
+      }
+    }
+
+    // standalone inputs outside a prefix wrapper
+    .form-input {
       width: 100%;
       padding: var(--spacing-md);
       border: 2px solid var(--color-border);
       border-radius: var(--radius-md);
       font-size: 16px;
       transition: all 0.2s;
+      background: transparent;
 
       &:focus {
         outline: none;
@@ -359,10 +390,6 @@ const accountPlaceholder = computed(() => {
         background: var(--color-background);
         cursor: not-allowed;
       }
-    }
-
-    input[type="number"] {
-      padding-left: 40px;
     }
 
     .helper-text {
