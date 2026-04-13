@@ -290,11 +290,14 @@ const handleDownload = () => {
 
     .input-prefix {
       position: absolute;
-      left: var(--spacing-md);
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
       font-size: 16px;
       font-weight: 600;
       color: var(--color-text);
       pointer-events: none;
+      z-index: 1;
     }
 
     input {
@@ -316,7 +319,7 @@ const handleDownload = () => {
     }
 
     input[type="number"] {
-      padding-left: calc(var(--spacing-md) + 16px);
+      padding-left: 40px;
     }
   }
 }
