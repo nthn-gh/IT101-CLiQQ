@@ -2,6 +2,12 @@
 import { ref, computed } from 'vue'
 import Icons from './Icons.vue'
 
+type Promo = {
+  title: string
+  description: string
+  price: number
+}
+
 const emit = defineEmits<{
   close: []
   success: [amount: number, mobileNumber: string, network: string]
@@ -9,9 +15,11 @@ const emit = defineEmits<{
 
 const mobileNumber = ref('')
 const selectedNetwork = ref('')
-const selectedAmount = ref(0)
+const selectedAmount = ref<number | null>(null)
+const selectedPromoTitle = ref('')
 const customAmount = ref('')
 const isProcessing = ref(false)
+const showConfirmation = ref(false)
 
 const networks = [
   { name: 'Globe/TM', logo: '🌐', value: 'globe' },
@@ -30,7 +38,7 @@ const loadAmounts = [
   { value: 0, label: 'Custom', isCustom: true },
 ]
 
-const networkPromos = {
+const networkPromos: Record<string, Promo[]> = {
   globe: [
     { title: 'GOSURF50', description: '1GB data + unlimited texts to Globe/TM', price: 50 },
     { title: 'GOSAKTO120', description: '8GB data + unli calls & texts', price: 120 },
@@ -53,11 +61,25 @@ const currentPromos = computed(() => {
   return networkPromos[selectedNetwork.value as keyof typeof networkPromos] || []
 })
 
+const selectedPromo = computed(() => {
+  return currentPromos.value.find((promo) => promo.title === selectedPromoTitle.value) || null
+})
+
 const finalAmount = computed(() => {
+  if (selectedPromo.value) {
+    return selectedPromo.value.price
+  }
+
   if (selectedAmount.value === 0 && customAmount.value) {
     return parseFloat(customAmount.value) || 0
   }
-  return selectedAmount.value
+  return selectedAmount.value ?? 0
+})
+
+const selectionTypeLabel = computed(() => {
+  if (selectedPromo.value) return 'Exclusive promo'
+  if (finalAmount.value > 0) return 'Regular amount'
+  return ''
 })
 
 const isValid = computed(() => {
@@ -110,24 +132,44 @@ const handleCustomAmountInput = (e: Event) => {
 
 const selectNetwork = (network: string) => {
   selectedNetwork.value = network
+  selectedAmount.value = null
+  selectedPromoTitle.value = ''
+  customAmount.value = ''
 }
 
 const selectAmount = (amount: number) => {
   selectedAmount.value = amount
+  selectedPromoTitle.value = ''
   // Clear custom amount when selecting preset
   if (amount !== 0) {
     customAmount.value = ''
   }
 }
 
-const selectPromo = (promo: { price: number }) => {
-  selectedAmount.value = promo.price
+const selectPromo = (promo: Promo) => {
+  selectedPromoTitle.value = promo.title
+  selectedAmount.value = null
   customAmount.value = ''
+}
+
+const isAmountSelected = (amount: number) => {
+  return !selectedPromoTitle.value && selectedAmount.value === amount
+}
+
+const openConfirmation = () => {
+  if (!isValid.value || isProcessing.value) return
+  showConfirmation.value = true
+}
+
+const closeConfirmation = () => {
+  if (isProcessing.value) return
+  showConfirmation.value = false
 }
 
 const handleSubmit = () => {
   if (!isValid.value || isProcessing.value) return
   
+  showConfirmation.value = false
   isProcessing.value = true
   
   // Simulate processing
@@ -148,7 +190,7 @@ const handleSubmit = () => {
         <div class="modal-header">
           <h2>Buy Load</h2>
           <button class="modal-close" @click="emit('close')" :disabled="isProcessing">
-            <Icons name="times" :size="24" />
+            <Icons name="x" :size="24" />
           </button>
         </div>
 
@@ -191,13 +233,16 @@ const handleSubmit = () => {
 
           <!-- Load Amount Selection -->
           <div class="form-group">
-            <label class="form-label">Select Amount</label>
+            <div class="form-label-row">
+              <label class="form-label">Regular Amount</label>
+              <span class="form-caption">Choose either a regular amount or one promo.</span>
+            </div>
             <div class="amount-grid">
               <button
                 v-for="amount in loadAmounts"
                 :key="amount.value"
                 class="amount-item"
-                :class="{ active: selectedAmount === amount.value }"
+                :class="{ active: isAmountSelected(amount.value) }"
                 @click="selectAmount(amount.value)"
                 :disabled="isProcessing"
               >
@@ -226,13 +271,16 @@ const handleSubmit = () => {
 
           <!-- Network Promos -->
           <div v-if="selectedNetwork && currentPromos.length > 0" class="form-group">
-            <label class="form-label">Exclusive Promos</label>
+            <div class="form-label-row">
+              <label class="form-label">Exclusive Promos</label>
+              <span class="form-caption">Promo selection clears any regular amount.</span>
+            </div>
             <div class="promos-list">
               <button
                 v-for="promo in currentPromos"
                 :key="promo.title"
                 class="promo-card"
-                :class="{ active: selectedAmount === promo.price }"
+                :class="{ active: selectedPromoTitle === promo.title }"
                 @click="selectPromo(promo)"
                 :disabled="isProcessing"
               >
@@ -241,6 +289,9 @@ const handleSubmit = () => {
                   <span class="promo-card__price">₱{{ promo.price }}</span>
                 </div>
                 <p class="promo-card__description">{{ promo.description }}</p>
+                <p v-if="selectedPromoTitle === promo.title" class="promo-card__selection">
+                  You will be charged for {{ promo.title }} only.
+                </p>
               </button>
             </div>
           </div>
@@ -248,7 +299,15 @@ const handleSubmit = () => {
           <!-- Payment Summary -->
           <div v-if="isValid" class="payment-summary">
             <div class="summary-row">
-              <span class="summary-label">Load Amount</span>
+              <span class="summary-label">Selection Type</span>
+              <span class="summary-value">{{ selectionTypeLabel }}</span>
+            </div>
+            <div v-if="selectedPromo" class="summary-row">
+              <span class="summary-label">Selected Promo</span>
+              <span class="summary-value">{{ selectedPromo.title }}</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">{{ selectedPromo ? 'Promo Charge' : 'Load Amount' }}</span>
               <span class="summary-value">₱{{ finalAmount.toFixed(2) }}</span>
             </div>
             <div class="summary-row">
@@ -268,14 +327,52 @@ const handleSubmit = () => {
           <button 
             class="btn-primary" 
             :disabled="!isValid || isProcessing"
-            @click="handleSubmit"
+            @click="openConfirmation"
           >
-            <span v-if="!isProcessing">Confirm Purchase</span>
+            <span v-if="!isProcessing">Review Purchase</span>
             <span v-else class="processing">
               <span class="spinner"></span>
               Processing...
             </span>
           </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showConfirmation" class="confirm-overlay" @click="closeConfirmation">
+      <div class="confirm-sheet" @click.stop>
+        <div class="confirm-sheet__header">
+          <div>
+            <p class="confirm-sheet__eyebrow">Purchase Review</p>
+            <h3>Confirm buy load</h3>
+          </div>
+          <button class="confirm-sheet__close" @click="closeConfirmation" :disabled="isProcessing">
+            <Icons name="x" :size="20" />
+          </button>
+        </div>
+
+        <div class="confirm-sheet__details">
+          <div class="confirm-sheet__row">
+            <span>Network</span>
+            <strong>{{ networks.find(network => network.value === selectedNetwork)?.name }}</strong>
+          </div>
+          <div class="confirm-sheet__row">
+            <span>Mobile Number</span>
+            <strong>{{ mobileNumber }}</strong>
+          </div>
+          <div class="confirm-sheet__row">
+            <span>Selection</span>
+            <strong>{{ selectedPromo ? selectedPromo.title : selectionTypeLabel }}</strong>
+          </div>
+          <div class="confirm-sheet__row">
+            <span>Amount to charge</span>
+            <strong>₱{{ finalAmount.toFixed(2) }}</strong>
+          </div>
+        </div>
+
+        <div class="confirm-sheet__actions">
+          <button class="confirm-action secondary" @click="closeConfirmation" :disabled="isProcessing">Back</button>
+          <button class="confirm-action primary" @click="handleSubmit" :disabled="isProcessing">Confirm Purchase</button>
         </div>
       </div>
     </div>
@@ -381,6 +478,24 @@ const handleSubmit = () => {
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 12px;
+}
+
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  .form-label {
+    margin-bottom: 0;
+  }
+}
+
+.form-caption {
+  font-size: 12px;
+  color: #666;
+  text-align: right;
 }
 
 .network-grid {
@@ -564,6 +679,13 @@ const handleSubmit = () => {
     line-height: 1.4;
   }
 
+  &__selection {
+    margin: 10px 0 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: #ff6900;
+  }
+
   &.active &__title,
   &.active &__description {
     color: #1a1a1a;
@@ -617,6 +739,115 @@ const handleSubmit = () => {
 .modal-footer {
   padding: 16px 24px 24px;
   border-top: 1px solid #f0f0f0;
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 10001;
+}
+
+.confirm-sheet {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+
+    h3 {
+      margin: 4px 0 0;
+      font-size: 22px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+  }
+
+  &__eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #ff6900;
+  }
+
+  &__close {
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 999px;
+    background: #f5f5f5;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  &__details {
+    background: #f8f8f8;
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 14px;
+    color: #666;
+
+    strong {
+      color: #1a1a1a;
+      text-align: right;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 12px;
+    }
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+}
+
+.confirm-action {
+  min-height: 48px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &.secondary {
+    border: 1px solid #d9d9d9;
+    background: white;
+    color: #1a1a1a;
+  }
+
+  &.primary {
+    border: none;
+    background: #ff6900;
+    color: white;
+  }
 }
 
 .btn-primary {
@@ -681,6 +912,26 @@ const handleSubmit = () => {
   .modal-container {
     border-radius: 24px;
     max-height: 85vh;
+  }
+}
+
+@media (max-width: 540px) {
+  .form-label-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .form-caption {
+    text-align: left;
+  }
+
+  .confirm-sheet__row {
+    flex-direction: column;
+    align-items: flex-start;
+
+    strong {
+      text-align: left;
+    }
   }
 }
 </style>

@@ -1,5 +1,10 @@
 <script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
 const logoSrc = `${import.meta.env.BASE_URL}cliqq-logo.png`
+const router = useRouter()
+const route = useRoute()
 
 defineProps<{
   title?: string
@@ -9,6 +14,13 @@ defineProps<{
 const emit = defineEmits<{
   back: []
 }>()
+
+const isNotificationsPage = computed(() => route.name === 'notifications')
+
+const openNotifications = () => {
+  if (isNotificationsPage.value) return
+  router.push('/settings/notifications')
+}
 </script>
 
 <template>
@@ -26,12 +38,17 @@ const emit = defineEmits<{
     <h1 v-else class="top-bar__title">{{ title }}</h1>
 
     <div class="top-bar__actions">
-      <button class="top-bar__action">
+      <button
+        class="top-bar__action"
+        :class="{ 'top-bar__action--active': isNotificationsPage }"
+        :aria-label="isNotificationsPage ? 'Notifications page' : 'Open notifications'"
+        @click="openNotifications"
+      >
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
           <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
-        <span class="notification-dot"></span>
+        <span v-if="!isNotificationsPage" class="notification-dot"></span>
       </button>
     </div>
   </header>
@@ -118,6 +135,12 @@ const emit = defineEmits<{
 
     &:active {
       transform: scale(0.95);
+    }
+
+    &--active {
+      background: var(--color-surface-secondary);
+      color: var(--color-primary);
+      cursor: default;
     }
   }
 }

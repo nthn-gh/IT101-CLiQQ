@@ -148,9 +148,23 @@ defineProps<{
   </svg>
 
   <!-- X / Close Icon -->
-  <svg v-else-if="name === 'x'" :width="size || 24" :height="size || 24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <svg v-else-if="name === 'x' || name === 'times'" :width="size || 24" :height="size || 24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <line x1="18" y1="6" x2="6" y2="18"></line>
     <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+
+  <!-- Eye Icon -->
+  <svg v-else-if="name === 'eye'" :width="size || 24" :height="size || 24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8S1 12 1 12z"></path>
+    <circle cx="12" cy="12" r="3"></circle>
+  </svg>
+
+  <!-- Eye Off Icon -->
+  <svg v-else-if="name === 'eye-off'" :width="size || 24" :height="size || 24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.77 21.77 0 0 1 5.06-7.94"></path>
+    <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.83 21.83 0 0 1-2.84 4.19"></path>
+    <path d="M14.12 14.12A3 3 0 1 1 9.88 9.88"></path>
+    <line x1="1" y1="1" x2="23" y2="23"></line>
   </svg>
 
   <!-- Credit Card Icon -->

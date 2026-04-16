@@ -6,10 +6,159 @@ import RedemptionModal from '@/components/RedemptionModal.vue'
 import LinkRewardsCardModal from '@/components/LinkRewardsCardModal.vue'
 import WiFiConversionModal from '@/components/WiFiConversionModal.vue'
 
+type RewardItem = {
+  id: string
+  title: string
+  description: string
+  points: number
+  icon: string
+  badge?: string
+}
+
+const rewards: RewardItem[] = [
+  {
+    id: 'coffee',
+    title: '7-Eleven Coffee',
+    description: 'Any regular size hot or iced coffee from your nearest 7-Eleven store.',
+    points: 150,
+    icon: '☕',
+    badge: 'Popular',
+  },
+  {
+    id: 'slurpee',
+    title: 'Free Slurpee',
+    description: 'Any size Slurpee, any flavor. Cool down with 7-Eleven’s signature frozen drink.',
+    points: 120,
+    icon: '🥤',
+    badge: 'Bestseller',
+  },
+  {
+    id: 'hotdog',
+    title: 'Big Bite Hot Dog',
+    description: 'One free Big Bite hot dog with bun and your choice of toppings.',
+    points: 180,
+    icon: '🌭',
+  },
+  {
+    id: 'meal-discount',
+    title: '₱50 Off Ready-to-Eat Meals',
+    description: 'Discount on any ready-to-eat meals including rice bowls, pasta, and sandwiches.',
+    points: 200,
+    icon: '🍱',
+  },
+  {
+    id: 'snack-pack',
+    title: 'Snack Pack Combo',
+    description: 'Choose any 3 snack items: chips, cookies, chocolate bars, or candy.',
+    points: 250,
+    icon: '🍪',
+  },
+  {
+    id: 'big-gulp',
+    title: 'Big Gulp + Snack',
+    description: 'Free Big Gulp drink plus one snack of your choice.',
+    points: 220,
+    icon: '🧊',
+  },
+  {
+    id: 'breakfast',
+    title: 'Breakfast Combo',
+    description: 'Coffee plus pandesal or ensaymada for a quick morning pick-me-up.',
+    points: 190,
+    icon: '🥐',
+  },
+  {
+    id: 'ice-cream',
+    title: 'Free Ice Cream',
+    description: 'Any flavor of ice cream from 7-Eleven’s single-serve selection.',
+    points: 140,
+    icon: '🍦',
+  },
+  {
+    id: 'pizza-hut',
+    title: '₱50 Pizza Hut Voucher',
+    description: 'Discount voucher valid for dine-in or takeout at participating Pizza Hut branches.',
+    points: 300,
+    icon: '🍕',
+  },
+  {
+    id: 'jollibee',
+    title: 'Jollibee Meal Voucher',
+    description: '₱100 off on any meal bundle for dine-in, takeout, or delivery orders.',
+    points: 400,
+    icon: '🍔',
+  },
+  {
+    id: 'personal-care',
+    title: 'Personal Care Bundle',
+    description: '₱50 discount on toiletries such as shampoo, soap, toothpaste, or body wash.',
+    points: 280,
+    icon: '🧴',
+  },
+  {
+    id: 'household',
+    title: 'Household Items Discount',
+    description: '₱30 off cleaning supplies, tissue, or laundry items at any 7-Eleven store.',
+    points: 260,
+    icon: '🧺',
+  },
+  {
+    id: 'delivery',
+    title: 'Free Delivery',
+    description: 'Free delivery on your next 7-Eleven Delivery order with no minimum spend.',
+    points: 200,
+    icon: '📦',
+  },
+  {
+    id: 'cinema',
+    title: 'SM Cinema Ticket',
+    description: 'One regular 2D movie ticket valid at participating SM Cinema locations.',
+    points: 500,
+    icon: '🎬',
+  },
+  {
+    id: 'gaming-credit',
+    title: '₱100 Gaming Credit',
+    description: 'Digital gaming credit for Steam, PlayStation, or Xbox.',
+    points: 600,
+    icon: '🎮',
+  },
+  {
+    id: 'shopee',
+    title: '₱200 Shopee Voucher',
+    description: 'E-commerce voucher valid on most categories with no minimum spend.',
+    points: 800,
+    icon: '🛒',
+  },
+  {
+    id: 'gcash',
+    title: '₱50 GCash Credits',
+    description: 'Load credits directly to your GCash account with instant transfer.',
+    points: 350,
+    icon: '💳',
+  },
+  {
+    id: 'petron',
+    title: '₱100 Petron Fuel',
+    description: 'Fuel voucher for participating Petron stations nationwide.',
+    points: 700,
+    icon: '⛽',
+  },
+  {
+    id: 'birthday-special',
+    title: 'Birthday Month Special',
+    description: 'Free cake slice during your birthday month while stocks last.',
+    points: 100,
+    icon: '🍰',
+  },
+]
+
 const availablePoints = ref(1250)
 const wifiMB = ref(850) // Current WiFi MB balance
 const isCardLinked = ref(false)
 const linkedCardNumber = ref('')
+const selectedRewardId = ref<string | null>(null)
+const rewardPendingConfirmation = ref<RewardItem | null>(null)
 
 const canRedeem = (requiredPoints: number) => {
   return availablePoints.value >= requiredPoints
@@ -19,6 +168,7 @@ const canRedeem = (requiredPoints: number) => {
 const isModalOpen = ref(false)
 const selectedRewardName = ref('')
 const selectedRewardPoints = ref(0)
+const isRedeemConfirmOpen = ref(false)
 
 // WiFi conversion modal state
 const isWiFiModalOpen = ref(false)
@@ -26,17 +176,36 @@ const isWiFiModalOpen = ref(false)
 // Link card modal state
 const isLinkCardModalOpen = ref(false)
 
-const handleRedeem = (rewardName: string, points: number) => {
-  if (canRedeem(points)) {
-    selectedRewardName.value = rewardName
-    selectedRewardPoints.value = points
-    isModalOpen.value = true
+const selectReward = (rewardId: string) => {
+  selectedRewardId.value = rewardId
+}
+
+const openRedeemConfirmation = (reward: RewardItem) => {
+  if (!canRedeem(reward.points)) return
+  selectedRewardId.value = reward.id
+  rewardPendingConfirmation.value = reward
+  isRedeemConfirmOpen.value = true
+}
+
+const closeRedeemConfirmation = () => {
+  isRedeemConfirmOpen.value = false
+  rewardPendingConfirmation.value = null
+}
+
+const confirmRedeem = () => {
+  if (!rewardPendingConfirmation.value || !canRedeem(rewardPendingConfirmation.value.points)) {
+    closeRedeemConfirmation()
+    return
   }
+
+  availablePoints.value -= rewardPendingConfirmation.value.points
+  selectedRewardName.value = rewardPendingConfirmation.value.title
+  selectedRewardPoints.value = rewardPendingConfirmation.value.points
+  isModalOpen.value = true
+  closeRedeemConfirmation()
 }
 
 const handleCloseModal = () => {
-  // Deduct points when modal closes
-  availablePoints.value -= selectedRewardPoints.value
   isModalOpen.value = false
   selectedRewardName.value = ''
   selectedRewardPoints.value = 0
@@ -76,6 +245,10 @@ const maskedCardNumber = computed(() => {
     return `****-****-****-${parts[3]}`
   }
   return linkedCardNumber.value
+})
+
+const selectedReward = computed(() => {
+  return rewards.find((reward) => reward.id === selectedRewardId.value) ?? null
 })
 </script>
 
@@ -172,333 +345,64 @@ const maskedCardNumber = computed(() => {
       <!-- Human-Readable Descriptions -->
       <section class="section">
         <h2 class="section-title">Featured Rewards</h2>
+        <p class="section-subtitle">Tap a reward to compare it, then confirm redemption only when you are ready.</p>
         <div class="rewards-grid">
-        <div class="reward-card featured">
-          <div class="reward-header">
-            <div class="reward-icon">☕</div>
-            <span class="reward-badge">Popular</span>
-          </div>
-          <div class="reward-content">
-            <h3>7-Eleven Coffee</h3>
-            <p>Any regular size hot or iced coffee from your nearest 7-Eleven store</p>
+          <article
+            v-for="reward in rewards"
+            :key="reward.id"
+            class="reward-card"
+            :class="{
+              featured: Boolean(reward.badge),
+              'is-selected': selectedRewardId === reward.id,
+              'is-disabled': !canRedeem(reward.points),
+            }"
+            tabindex="0"
+            @click="selectReward(reward.id)"
+            @keydown.enter.prevent="selectReward(reward.id)"
+            @keydown.space.prevent="selectReward(reward.id)"
+          >
+            <div class="reward-header">
+              <div class="reward-icon">{{ reward.icon }}</div>
+              <div class="reward-meta">
+                <span v-if="reward.badge" class="reward-badge">{{ reward.badge }}</span>
+                <span v-if="selectedRewardId === reward.id" class="reward-selected-pill">
+                  <Icons name="check" :size="14" />
+                  Selected
+                </span>
+              </div>
+            </div>
+
+            <div class="reward-content">
+              <h3>{{ reward.title }}</h3>
+              <p>{{ reward.description }}</p>
+            </div>
+
             <div class="reward-footer">
               <div class="reward-points">
-                <span class="points-value">150</span>
+                <span class="points-value">{{ reward.points }}</span>
                 <span class="points-label">points</span>
               </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(150) }" :disabled="!canRedeem(150)" @click.stop="handleRedeem('7-Eleven Coffee', 150)">Redeem</button>
+
+              <button
+                class="redeem-btn"
+                :class="{ primary: canRedeem(reward.points) }"
+                :disabled="!canRedeem(reward.points)"
+                @click.stop="openRedeemConfirmation(reward)"
+              >
+                Redeem
+              </button>
             </div>
-          </div>
+          </article>
         </div>
 
-        <button class="reward-card featured">
-          <div class="reward-header">
-            <div class="reward-icon">🥤</div>
-            <span class="reward-badge">Bestseller</span>
+        <div v-if="selectedReward" class="reward-selection-summary">
+          <div>
+            <p class="reward-selection-summary__label">Selected reward</p>
+            <strong>{{ selectedReward.title }}</strong>
           </div>
-          <div class="reward-content">
-            <h3>Free Slurpee</h3>
-            <p>Any size Slurpee, any flavor. Cool down with 7-Eleven's signature frozen drink</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">120</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(120) }" :disabled="!canRedeem(120)" @click.stop="handleRedeem('Free Slurpee', 120)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🌭</div>
-          </div>
-          <div class="reward-content">
-            <h3>Big Bite Hot Dog</h3>
-            <p>One free Big Bite hot dog with bun and your choice of toppings</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">180</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(180) }" :disabled="!canRedeem(180)" @click.stop="handleRedeem('Big Bite Hot Dog', 180)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍱</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱50 Off Ready-to-Eat Meals</h3>
-            <p>Discount on any ready-to-eat meals including rice bowls, pasta, and sandwiches</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">200</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(200) }" :disabled="!canRedeem(200)" @click.stop="handleRedeem('₱50 Off Ready-to-Eat Meals', 200)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍪</div>
-          </div>
-          <div class="reward-content">
-            <h3>Snack Pack Combo</h3>
-            <p>Choose any 3 snack items: chips, cookies, chocolate bars, or candy</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">250</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(250) }" :disabled="!canRedeem(250)" @click.stop="handleRedeem('Snack Pack Combo', 250)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🧊</div>
-          </div>
-          <div class="reward-content">
-            <h3>Big Gulp + Snack</h3>
-            <p>Free Big Gulp drink (any flavor) plus one snack of your choice</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">220</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(220) }" :disabled="!canRedeem(220)" @click.stop="handleRedeem('Big Gulp', 220)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🥐</div>
-          </div>
-          <div class="reward-content">
-            <h3>Breakfast Combo</h3>
-            <p>Coffee + Pandesal or Ensaymada. Perfect way to start your morning</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">190</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(190) }" :disabled="!canRedeem(190)" @click.stop="handleRedeem('Breakfast Combo', 190)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍦</div>
-          </div>
-          <div class="reward-content">
-            <h3>Free Ice Cream</h3>
-            <p>Any flavor of ice cream from 7-Eleven's selection. Single serving</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">140</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(140) }" :disabled="!canRedeem(140)" @click.stop="handleRedeem('Ice Cream', 140)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍕</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱50 Pizza Hut Voucher</h3>
-            <p>Discount voucher valid for dine-in or takeout at all Pizza Hut branches nationwide</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">300</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(300) }" :disabled="!canRedeem(300)" @click.stop="handleRedeem('₱100 Pizza Hut Voucher', 300)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍔</div>
-          </div>
-          <div class="reward-content">
-            <h3>Jollibee Meal Voucher</h3>
-            <p>₱100 off on any meal bundle. Valid for dine-in, takeout, or delivery orders</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">400</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(400) }" :disabled="!canRedeem(400)" @click.stop="handleRedeem('₱150 Jollibee Meal', 400)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🧴</div>
-          </div>
-          <div class="reward-content">
-            <h3>Personal Care Bundle</h3>
-            <p>₱50 discount on toiletries: shampoo, soap, toothpaste, or body wash</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">280</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(280) }" :disabled="!canRedeem(280)" @click.stop="handleRedeem('Personal Care Bundle', 280)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🧺</div>
-          </div>
-          <div class="reward-content">
-            <h3>Household Items Discount</h3>
-            <p>₱30 off on cleaning supplies, tissue, or laundry items at any 7-Eleven store</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">260</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(260) }" :disabled="!canRedeem(260)" @click.stop="handleRedeem('Household Items Discount', 260)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">📦</div>
-          </div>
-          <div class="reward-content">
-            <h3>Free Delivery</h3>
-            <p>Free delivery on your next 7-Eleven Delivery order. No minimum purchase required</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">200</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(200) }" :disabled="!canRedeem(200)" @click.stop="handleRedeem('Free Delivery', 200)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🎬</div>
-          </div>
-          <div class="reward-content">
-            <h3>SM Cinema Ticket</h3>
-            <p>One regular 2D movie ticket valid at all SM Cinema locations. Booking fee may apply</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">500</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(500) }" :disabled="!canRedeem(500)" @click.stop="handleRedeem('SM Cinema Ticket', 500)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🎮</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱100 Gaming Credit</h3>
-            <p>Digital gaming credit for Steam, PlayStation, or Xbox. Perfect for gamers</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">600</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(600) }" :disabled="!canRedeem(600)" @click.stop="handleRedeem('₱100 Gaming Credit', 600)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🛒</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱200 Shopee Voucher</h3>
-            <p>E-commerce voucher for Shopee. Valid on all categories with no minimum spend</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">800</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(800) }" :disabled="!canRedeem(800)" @click.stop="handleRedeem('₱200 Shopee Voucher', 800)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">💳</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱50 GCash Credits</h3>
-            <p>Load credits directly to your GCash account. Instant transfer</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">350</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(350) }" :disabled="!canRedeem(350)" @click.stop="handleRedeem('₱50 GCash Credits', 350)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">⛽</div>
-          </div>
-          <div class="reward-content">
-            <h3>₱100 Petron Fuel</h3>
-            <p>Fuel voucher for Petron stations nationwide. Valid for all fuel types</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">700</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(700) }" :disabled="!canRedeem(700)" @click.stop="handleRedeem('₱100 Petron Fuel', 700)">Redeem</button>
-            </div>
-          </div>
-        </button>
-
-        <button class="reward-card">
-          <div class="reward-header">
-            <div class="reward-icon">🍰</div>
-          </div>
-          <div class="reward-content">
-            <h3>Birthday Month Special</h3>
-            <p>Free cake slice during your birthday month. Valid on all cake variants available</p>
-            <div class="reward-footer">
-              <div class="reward-points">
-                <span class="points-value">100</span>
-                <span class="points-label">points</span>
-              </div>
-              <button class="redeem-btn" :class="{ primary: canRedeem(100) }" :disabled="!canRedeem(100)" @click.stop="handleRedeem('Birthday Month Special', 100)">Redeem</button>
-            </div>
-          </div>
-        </button>
-      </div>
-    </section>
+          <span>{{ selectedReward.points }} points</span>
+        </div>
+      </section>
 
     <!-- Reward Categories -->
     <section class="section">
@@ -643,6 +547,42 @@ const maskedCardNumber = computed(() => {
       @close="closeWiFiModal"
       @convert="handleWiFiConversion"
     />
+
+    <Transition name="modal">
+      <div v-if="isRedeemConfirmOpen && rewardPendingConfirmation" class="confirm-overlay" @click="closeRedeemConfirmation">
+        <div class="confirm-modal" @click.stop>
+          <div class="confirm-modal__header">
+            <div class="confirm-modal__icon">
+              <Icons name="gift" :size="24" />
+            </div>
+            <button class="confirm-modal__close" @click="closeRedeemConfirmation">
+              <Icons name="x" :size="20" />
+            </button>
+          </div>
+
+          <h3>Confirm reward redemption</h3>
+          <p class="confirm-modal__copy">
+            You’re about to redeem <strong>{{ rewardPendingConfirmation.title }}</strong>.
+          </p>
+
+          <div class="confirm-modal__summary">
+            <div class="confirm-row">
+              <span>Points to use</span>
+              <strong>{{ rewardPendingConfirmation.points }}</strong>
+            </div>
+            <div class="confirm-row">
+              <span>Balance after redemption</span>
+              <strong>{{ (availablePoints - rewardPendingConfirmation.points).toLocaleString() }}</strong>
+            </div>
+          </div>
+
+          <div class="confirm-modal__actions">
+            <button class="confirm-btn secondary" @click="closeRedeemConfirmation">Cancel</button>
+            <button class="confirm-btn primary" @click="confirmRedeem">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
@@ -950,9 +890,9 @@ const maskedCardNumber = computed(() => {
 
 /* Rewards Grid */
 .rewards-grid {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-md);
 }
 
 /* Card-Based Layout */
@@ -960,13 +900,16 @@ const maskedCardNumber = computed(() => {
   background: var(--color-surface);
   border: 2px solid var(--color-divider);
   border-radius: var(--radius-xl);
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   cursor: pointer;
   transition: all 0.2s;
   text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  outline: none;
 
   &:hover {
-    border-color: var(--color-primary);
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
   }
@@ -975,31 +918,54 @@ const maskedCardNumber = computed(() => {
     transform: scale(0.98);
   }
 
-  &.featured {
+  &:focus-visible {
     border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(255, 107, 0, 0.16);
+  }
+
+  &.featured {
     background: linear-gradient(135deg, var(--color-surface) 0%, #FFF8EE 100%);
+  }
+
+  &.is-selected {
+    border-color: var(--color-primary);
+    box-shadow: 0 16px 32px rgba(255, 107, 0, 0.12);
+    background: linear-gradient(135deg, var(--color-surface) 0%, #FFF6EC 100%);
+  }
+
+  &.is-disabled {
+    opacity: 0.76;
   }
 
   .reward-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--spacing-lg);
+    align-items: flex-start;
+    gap: var(--spacing-md);
   }
 
   .reward-icon {
-    width: 72px;
-    height: 72px;
+    width: 56px;
+    height: 56px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--color-surface-secondary);
     border-radius: var(--radius-lg);
-    font-size: 40px;
+    font-size: 30px;
+    flex-shrink: 0;
   }
 
   &.featured .reward-icon {
     background: var(--color-primary-light);
+  }
+
+  .reward-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    min-height: 56px;
   }
 
   .reward-badge {
@@ -1013,19 +979,35 @@ const maskedCardNumber = computed(() => {
     letter-spacing: 0.5px;
   }
 
+  .reward-selected-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: rgba(255, 107, 0, 0.12);
+    color: var(--color-primary);
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
   .reward-content {
     h3 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--color-text-primary);
-      margin-bottom: var(--spacing-sm);
+      margin-bottom: 6px;
     }
 
     p {
       font-size: 14px;
       color: var(--color-text-secondary);
-      line-height: 1.6;
-      margin-bottom: var(--spacing-xl);
+      line-height: 1.5;
+      margin: 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
   }
 
@@ -1034,6 +1016,7 @@ const maskedCardNumber = computed(() => {
     align-items: center;
     justify-content: space-between;
     gap: var(--spacing-md);
+    margin-top: auto;
   }
 
   .reward-points {
@@ -1056,12 +1039,12 @@ const maskedCardNumber = computed(() => {
 }
 
 .redeem-btn {
-  padding: 12px 24px;
+  padding: 10px 18px;
   background: var(--color-surface);
   color: var(--color-primary);
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-md);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
@@ -1100,6 +1083,160 @@ const maskedCardNumber = computed(() => {
     &:active {
       transform: none;
     }
+  }
+}
+
+.section-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: -4px 0 var(--spacing-lg);
+}
+
+.reward-selection-summary {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 107, 0, 0.18);
+  background: #FFF9F2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-tertiary);
+    margin-bottom: 4px;
+  }
+
+  strong,
+  span {
+    color: var(--color-text-primary);
+  }
+
+  span {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+}
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  z-index: 10001;
+}
+
+.confirm-modal {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.2);
+
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  &__icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: rgba(255, 107, 0, 0.12);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__close {
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+    border: none;
+    background: var(--color-surface-secondary);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  &__copy {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  &__summary {
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-secondary);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  &__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-sm);
+  }
+}
+
+.confirm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  font-size: 14px;
+  color: var(--color-text-secondary);
+
+  strong {
+    color: var(--color-text-primary);
+  }
+
+  &:not(:last-child) {
+    margin-bottom: var(--spacing-sm);
+  }
+}
+
+.confirm-btn {
+  min-height: 48px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &.secondary {
+    background: white;
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-divider);
+  }
+
+  &.primary {
+    border: none;
+    background: var(--color-primary);
+    color: white;
   }
 }
 

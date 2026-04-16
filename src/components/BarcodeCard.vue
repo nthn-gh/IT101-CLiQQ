@@ -151,8 +151,8 @@ const closeExpanded = () => {
             </div>
           </div>
 
-          <button class="swipe-hint" @click="closeExpanded">
-            Swipe down to close
+          <button class="close-hint" @click="closeExpanded">
+            Tap to close
           </button>
         </div>
       </div>
@@ -363,7 +363,7 @@ const closeExpanded = () => {
   flex-shrink: 0;
 }
 
-.swipe-hint {
+.close-hint {
   width: 100%;
   margin-top: var(--spacing-xl);
   padding: var(--spacing-md);

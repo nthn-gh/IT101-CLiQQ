@@ -37,6 +37,45 @@ const lowBalance = ref(false)
 const pushEnabled = ref(true)
 const emailEnabled = ref(true)
 const smsEnabled = ref(false)
+
+const mockNotifications = [
+  {
+    id: 1,
+    category: 'Transaction',
+    title: 'Buy Load successful',
+    message: 'Your Smart/TNT/Sun purchase for GIGA99 was completed for 0917-123-4567.',
+    time: 'Today, 4:20 PM',
+    unread: true,
+    icon: 'phone',
+  },
+  {
+    id: 2,
+    category: 'Rewards',
+    title: '150 points expiring soon',
+    message: 'Use your points before April 30, 2026 to avoid losing them.',
+    time: 'Today, 11:05 AM',
+    unread: true,
+    icon: 'gift',
+  },
+  {
+    id: 3,
+    category: 'Security',
+    title: 'New login detected',
+    message: 'Your account was accessed on a Vivo Android device in Quezon City.',
+    time: 'Yesterday, 8:42 PM',
+    unread: false,
+    icon: 'lock',
+  },
+  {
+    id: 4,
+    category: 'Promo',
+    title: 'Double points Friday is live',
+    message: 'Earn 2x CLiQQ points on participating in-store purchases today.',
+    time: 'Yesterday, 7:15 AM',
+    unread: false,
+    icon: 'star',
+  },
+]
 </script>
 
 <template>
@@ -44,6 +83,38 @@ const smsEnabled = ref(false)
     <TopBar title="Notifications" :show-back="true" @back="goBack" />
     
     <div class="notifications-view__content">
+      <section class="section">
+        <div class="section-header section-header--stacked">
+          <div>
+            <h2 class="section-title">Recent Notifications</h2>
+            <p class="section-subtitle">Mock alerts to validate the bell flow and notifications layout.</p>
+          </div>
+          <span class="notification-count">{{ mockNotifications.filter(item => item.unread).length }} new</span>
+        </div>
+
+        <div class="feed-list">
+          <article
+            v-for="notification in mockNotifications"
+            :key="notification.id"
+            class="feed-item"
+            :class="{ 'feed-item--unread': notification.unread }"
+          >
+            <div class="feed-item__icon">
+              <Icons :name="notification.icon" :size="18" />
+            </div>
+            <div class="feed-item__content">
+              <div class="feed-item__meta">
+                <span class="feed-item__category">{{ notification.category }}</span>
+                <span class="feed-item__time">{{ notification.time }}</span>
+              </div>
+              <h3>{{ notification.title }}</h3>
+              <p>{{ notification.message }}</p>
+            </div>
+            <span v-if="notification.unread" class="feed-item__dot"></span>
+          </article>
+        </div>
+      </section>
+
       <!-- Notification Methods -->
       <section class="section">
         <h2 class="section-title">Notification Methods</h2>
@@ -324,6 +395,111 @@ const smsEnabled = ref(false)
     justify-content: space-between;
     align-items: center;
     margin-bottom: var(--spacing-lg);
+  }
+}
+
+.section-subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.section-header--stacked {
+  align-items: flex-start;
+}
+
+.notification-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 58px;
+  padding: 6px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 107, 0, 0.12);
+  color: var(--color-primary);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.feed-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.feed-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  box-shadow: var(--shadow-xs);
+
+  &--unread {
+    border-color: rgba(255, 107, 0, 0.2);
+    background: #FFF9F4;
+  }
+
+  &__icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: var(--color-surface-secondary);
+    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__content {
+    flex: 1;
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 4px;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin-bottom: 6px;
+  }
+
+  &__category {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-primary);
+  }
+
+  &__time {
+    font-size: 12px;
+    color: var(--color-text-tertiary);
+    white-space: nowrap;
+  }
+
+  &__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-primary);
+    margin-top: 6px;
+    flex-shrink: 0;
   }
 }
 

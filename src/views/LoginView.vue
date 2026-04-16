@@ -9,6 +9,8 @@ const isLogin = ref(true)
 const showConsent = ref(false)
 const showOTP = ref(false)
 const isLoading = ref(false)
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 
 // Form fields
 const email = ref('')
@@ -24,14 +26,20 @@ const mockOTP = '123456'
 const otpError = ref('')
 const logoSrc = `${import.meta.env.BASE_URL}cliqq-logo.png`
 
-const toggleMode = () => {
-  isLogin.value = !isLogin.value
-  // Reset form
+const resetAuthForm = () => {
   email.value = ''
   password.value = ''
   fullName.value = ''
   mobileNumber.value = ''
   confirmPassword.value = ''
+  showPassword.value = false
+  showConfirmPassword.value = false
+}
+
+const setMode = (nextIsLogin: boolean) => {
+  if (isLogin.value === nextIsLogin) return
+  isLogin.value = nextIsLogin
+  resetAuthForm()
 }
 
 const handleSubmit = () => {
@@ -321,14 +329,14 @@ const resendOTP = () => {
           <button 
             class="auth-tab" 
             :class="{ active: isLogin }"
-            @click="isLogin = true"
+            @click="setMode(true)"
           >
             Log In
           </button>
           <button 
             class="auth-tab" 
             :class="{ active: !isLogin }"
-            @click="isLogin = false"
+            @click="setMode(false)"
           >
             Register
           </button>
@@ -375,26 +383,48 @@ const resendOTP = () => {
 
           <div class="form-group">
             <label for="password">Password</label>
-            <input 
-              type="password" 
-              id="password"
-              v-model="password"
-              placeholder="Enter your password"
-              minlength="6"
-              required
-            />
+            <div class="password-field">
+              <input 
+                :type="showPassword ? 'text' : 'password'" 
+                id="password"
+                v-model="password"
+                placeholder="Enter your password"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                @click="showPassword = !showPassword"
+              >
+                <Icons :name="showPassword ? 'eye-off' : 'eye'" :size="18" />
+                <span>{{ showPassword ? 'Hide' : 'Show' }}</span>
+              </button>
+            </div>
           </div>
 
           <div v-if="!isLogin" class="form-group">
             <label for="confirmPassword">Confirm Password</label>
-            <input 
-              type="password" 
-              id="confirmPassword"
-              v-model="confirmPassword"
-              placeholder="Re-enter your password"
-              minlength="6"
-              required
-            />
+            <div class="password-field">
+              <input 
+                :type="showConfirmPassword ? 'text' : 'password'" 
+                id="confirmPassword"
+                v-model="confirmPassword"
+                placeholder="Re-enter your password"
+                minlength="6"
+                required
+              />
+              <button
+                type="button"
+                class="password-toggle"
+                :aria-label="showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'"
+                @click="showConfirmPassword = !showConfirmPassword"
+              >
+                <Icons :name="showConfirmPassword ? 'eye-off' : 'eye'" :size="18" />
+                <span>{{ showConfirmPassword ? 'Hide' : 'Show' }}</span>
+              </button>
+            </div>
           </div>
 
           <!-- Forgot Password (Login only) -->
@@ -576,6 +606,37 @@ const resendOTP = () => {
     font-size: 12px;
     color: var(--color-text-tertiary);
     margin-top: var(--spacing-xs);
+  }
+}
+
+.password-field {
+  position: relative;
+
+  input {
+    padding-right: 88px;
+  }
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 107, 0, 0.08);
   }
 }
 
